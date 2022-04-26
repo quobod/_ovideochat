@@ -1,0 +1,62 @@
+<!doctype html>
+<html class="no-js" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{{title}}}</title>
+    <link rel="stylesheet" href="/css/foundation.css">
+    <link rel="stylesheet" href="/css/app.css">
+    <link rel="stylesheet" href="/assets/css/all.css">
+</head>
+
+<body>
+    {{>menu}}
+    {{>messages}}
+
+    <div class="grid-container full" style="margin:20px;">
+        {{{body}}}
+    </div>
+    <script src="/js/vendor/jquery.js" type="javascript"></script>
+    <script src="/js/vendor/what-input.js" type="javascript"></script>
+    <script src="/js/vendor/foundation.js" type="javascript"></script>
+    <script src="/js/app.js" type="javascript"></script>
+    <p class="lead float-center" style="margin:0;padding:20px;text-algin:center;bottom:10px;">
+        &copy; RMedia Technology
+    </p>
+</body>
+<link rel="stylesheet" href="/assets/css/peerlist.css">
+<link rel="stylesheet" href="/assets/css/dialog.css">
+<script src="/assets/js/utils.js" type="module"></script>
+
+{{#if user}}
+<script src="/socket.io/socket.io.js"></script>
+{{#if room}}
+<link rel="stylesheet" href="/assets/css/room/parts.css">
+<link rel="stylesheet" href="/assets/css/room/room.css">
+<script src="/twilio-video.js"></script>
+<script src="/assets/js/room/roommain.js" type="module"></script>
+{{/if}}
+{{#if connectedpeers}}
+<script src="/assets/js/room/connectedpeersscriptelements.js" type="module"></script>
+<script src="/assets/js/room/connectedpeersscript.js" type="module"></script>
+{{/if}}
+{{#if dashboard}}
+<script src="/assets/js/dashboardelements.js" type="module"></script>
+<script src="/assets/js/dashboardmain.js" type="module"></script>
+<link rel="stylesheet" href="/assets/css/dashboard.css">
+{{/if}}
+{{#if multicontact}}
+<script src="/assets/js/contactsmainelements.js" type="module"></script>
+<script src="/assets/js/contactsmain.js" type="module"></script>
+{{/if}}
+{{#if singlecontact}}
+<script src="/assets/js/singlecontactelements.js" type="module"></script>
+<script src="/assets/js/singlecontactmain.js" type="module"></script>
+{{/if}}
+{{else}}
+<script src="/assets/js/main.js" type="module"></script>
+{{/if}}
+
+</html>

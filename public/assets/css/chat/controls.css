@@ -1,0 +1,71 @@
+.dashboard-container,
+.call-container,
+.messenger-container {
+  background-color: #0052c9;
+  color: rgb(255, 255, 255);
+  border: solid 1pt rgb(12, 100, 188);
+  border-radius: 15px;
+}
+
+button {
+  display: inline-block;
+  background: transparent;
+}
+
+button:hover,
+input[type="checkbox"]:hover {
+  cursor: pointer;
+}
+
+button > i,
+span > i {
+  color: rgb(255, 255, 255);
+}
+
+span > i {
+  background: transparent;
+  border: none;
+  color: rgb(240, 238, 250);
+  font-weight: bold;
+}
+
+span.input-group-label {
+  background: transparent;
+  border: none;
+  color: white;
+}
+
+input[type="text"]#personal-code-input {
+  margin: 0 5px;
+}
+
+#personal-code-video-button.hide {
+  display: none;
+  border: none;
+}
+
+#stranger-code-video-button.hide {
+  display: none;
+  border: none;
+}
+
+#settings {
+  position: absolute;
+  left: 10%;
+  z-index: 120;
+  margin: 0 60px 0 0;
+  background-color: rgb(8, 62, 128);
+  color: white;
+  border-radius: 15px;
+
+  transform: translate3d(0, -300%, 0);
+  transition: transform 0.6s;
+}
+
+#settings.show {
+  transform: translate3d(0, 0, 0);
+}
+
+.button {
+  border-radius: 15px;
+}

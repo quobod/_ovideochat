@@ -1,0 +1,46 @@
+.dashboard-personal-code {
+  font-size: small;
+  font-weight: bold;
+}
+
+.dashboard-personal-code-title {
+  font-weight: bolder;
+  font-size: large;
+  margin: 0 auto 10px auto;
+}
+
+.copyright,
+.app-name,
+.icon {
+  color: rgb(2, 2, 56);
+  margin: 0;
+  padding: 0;
+}
+
+h* {
+  text-align: center;
+}
+
+i.fa-solid:first-child {
+  display: inline-block;
+}
+
+i.fa-solid:last-child {
+  display: inline-block;
+}
+
+.fa-solid:hover {
+  cursor: pointer;
+}
+
+.card {
+  border-radius: 10px;
+}
+
+div.callout {
+  border-radius: 10px;
+}
+
+div.callout button {
+  border-radius: 10px;
+}
