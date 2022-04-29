@@ -116,7 +116,7 @@ const handleDisconnectedParticipant = (participant) => {
   participant.removeAllListeners();
   // remove this participant's div from the page
   const participantDiv = document.getElementById(participant.identity);
-  removeById(participant.id);
+  // removeById(participant.id);
   if (participantDiv.parentElement.nextElementSibling) {
     participantDiv.parentElement.nextElementSibling.remove();
   }

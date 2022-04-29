@@ -100,13 +100,11 @@ export const registerSocketEvents = (socket) => {
           const responseText = xmlHttp.responseText;
 
           if (responseText) {
-            if (responseText.status) {
-              log(`\n\tResponse Text: ${stringify(responseText)}\n`);
-              const responseJson = parse(responseText);
-              token = responseJson.token;
+            log(`\n\tResponse Text: ${stringify(responseText)}\n`);
+            const responseJson = parse(responseText);
+            token = responseJson.token;
 
-              location.href = `/user/room/join?roomName=${roomName}&chatType=${type}`;
-            }
+            location.href = `/user/room/join?roomName=${roomName}&chatType=${type}`;
           }
         };
 

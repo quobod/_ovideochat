@@ -30,9 +30,12 @@ addEventListener("beforeunload", (event) => {
     grandParent.remove();
     });
 */
-addHandler(elements.closeButton, "click", (e) => {
-  const target = e.target;
-  const parent = target.parentElement;
-  const grandParent = parent.parentElement;
-  grandParent.remove();
-});
+
+if (elements.closeButton) {
+  addHandler(elements.closeButton, "click", (e) => {
+    const target = e.target;
+    const parent = target.parentElement;
+    const grandParent = parent.parentElement;
+    grandParent.remove();
+  });
+}

@@ -39,6 +39,8 @@ import contact from "./routers/contact/index.js";
 import User from "./models/UserModel.js";
 import userManager from "./custom_modules/UsersManager.js";
 
+let certPath;
+
 dotenv.config();
 mongoose.Promise = global.Promise;
 
@@ -73,7 +75,7 @@ const nanoid = customAlphabet("02468ouqtyminv", 13);
 const __dirname = path.resolve(".");
 const PORT = process.env.SPORT || 443;
 const ADDRESS = process.env.ADDRESS || "0.0.0.0";
-const options = letsencryptOptions("rmediatech.com");
+const options = letsencryptOptions();
 
 // Express app
 const app = express();
@@ -239,7 +241,7 @@ io.on("connection", (socket) => {
     if (user) {
       dlog(`Received participant identity`);
       user.participantIdentity = participantIdentity;
-      dlog(user);
+      dlog(`${stringify(user)}`);
     }
   });
 
@@ -325,13 +327,15 @@ io.on("connection", (socket) => {
   });
 });
 
-server.listen(PORT, () => {
+server.listen(PORT, "0.0.0.0", () => {
   cls();
-  log(
+  dlog(
     successMessage(
       `\n\t\tServer listening on *:${PORT}\n\t\tServer Address: ${server._connectionKey}\n\n`
     )
   );
+
+  dlog(`SSL Certification Path: ${certPath}`);
 });
 
 function logPeers() {
@@ -386,13 +390,21 @@ async function registerMe(userData, done) {
     });
 }
 
-function letsencryptOptions(domain) {
-  const path = "/etc/letsencrypt/live/";
-  return {
-    key: fs.readFileSync(path + domain + "/privkey.pem"),
-    cert: fs.readFileSync(path + domain + "/cert.pem"),
-    ca: fs.readFileSync(path + domain + "/chain.pem"),
-  };
+function letsencryptOptions(domain = null) {
+  if (null != domain) {
+    certPath = "/etc/letsencrypt/live/";
+    return {
+      key: fs.readFileSync(certPath + domain + "/privkey.pem"),
+      cert: fs.readFileSync(certPath + domain + "/cert.pem"),
+      ca: fs.readFileSync(certPath + domain + "/chain.pem"),
+    };
+  } else {
+    certPath = path.join(__dirname, "../certi/");
+    return {
+      key: fs.readFileSync(certPath + "server.key"),
+      cert: fs.readFileSync(certPath + "server.cert"),
+    };
+  }
 }
 
 function randomNameGenerator() {

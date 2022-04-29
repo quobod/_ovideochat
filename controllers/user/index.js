@@ -275,7 +275,7 @@ export const joinAsPeer = asyncHandler(async (req, res) => {
 });
 
 // TODO: replace joinAsPeer
-//  @desc           VEnter room
+//  @desc           Enter room
 //  @route          GET /user/room/enter
 //  @access         Private
 export const enterRoom = asyncHandler(async (req, res) => {
