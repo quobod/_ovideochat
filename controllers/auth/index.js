@@ -116,13 +116,13 @@ export const registerUser = (req, res, next) => {
     return `${location}[${param}]: ${msg}`;
   };
 
-  const captchaUrl = "/captcha.jpg";
+  /* const captchaUrl = "/captcha.jpg";
   const captchaId = "captcha";
   const captchaFieldName = "captcha";
   const captcha = create({ cookie: captchaId });
   const captchaValid = captcha.check(req, req.body[captchaFieldName]);
 
-  console.log(`Captcha Valid: ${captchaValid}`);
+  console.log(`Captcha Valid: ${captchaValid}`); */
   // res.status(200).send({ status: captchaValid });
 
   const result = validationResult(req).formatWith(errorFormatter);
@@ -151,11 +151,12 @@ export const registerUser = (req, res, next) => {
       error: true,
       errors: arrResult,
     });
-  } else if (!captchaValid) {
+  } else {
+    /* else if (!captchaValid) {
     console.log(`\n\tCaptcha Invalid`);
     req.flash("error_msg", "Captcha Invalid");
     return res.redirect("/auth/register");
-  } else {
+  } */
     passport.authenticate("local-register", {
       successRedirect: "/user",
       failureRedirect: "/auth/register",

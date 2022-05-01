@@ -332,8 +332,6 @@ server.listen(PORT, "0.0.0.0", () => {
       `\n\t\tServer listening on *:${PORT}\n\t\tServer Address: ${server._connectionKey}\n\n`
     )
   );
-
-  dlog(`SSL Certification Path: ${certPath}`);
 });
 
 function logPeers() {
