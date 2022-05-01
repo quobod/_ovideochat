@@ -39,8 +39,6 @@ import contact from "./routers/contact/index.js";
 import User from "./models/UserModel.js";
 import userManager from "./custom_modules/UsersManager.js";
 
-let certPath;
-
 dotenv.config();
 mongoose.Promise = global.Promise;
 
@@ -291,7 +289,7 @@ io.on("connection", (socket) => {
         sender: false,
         roomName,
       });
-    }, [1202]);
+    }, [702]);
   });
 
   socket.on("chatrejected", (data) => {
@@ -391,6 +389,7 @@ async function registerMe(userData, done) {
 }
 
 function letsencryptOptions(domain = null) {
+  let certPath;
   if (null != domain) {
     certPath = "/etc/letsencrypt/live/";
     return {

@@ -62,6 +62,20 @@ export const getElement = (nameIdClass) => {
   return null;
 };
 
+export const getElements = (nameIdClass) => {
+  let elements = null;
+  if (null != (elements = document.querySelectorAll(`${nameIdClass}`))) {
+    return elements;
+  }
+  if (null != (elements = document.querySelectorAll(`#${nameIdClass}`))) {
+    return elements;
+  }
+  if (null != (elements = document.querySelectorAll(`.${nameIdClass}`))) {
+    return elements;
+  }
+  return null;
+};
+
 export const size = (arg = null) => {
   if (null != arg) {
     if (Array.isArray(arg)) {
@@ -178,6 +192,13 @@ export const getLastChild = (parent) => {
 
 export const removeChild = (parent, child) => {
   parent.removeChild(child);
+};
+
+export const removeById = (elementID) => {
+  const element = document.querySelector(`#${elementID}`) || null;
+  if (element != null) {
+    element.remove();
+  }
 };
 
 export const getFirstChild = (parent) => {

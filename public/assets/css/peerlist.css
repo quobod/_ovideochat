@@ -9,7 +9,7 @@
 
 .card-divider,
 .card-section {
-  justify-content: space-evenly;
+  justify-content: space-between;
   justify-items: center;
   justify-self: center;
   align-items: center;
@@ -24,7 +24,7 @@
   background: transparent;
 }
 
-@media screen and (max-width: 400px) {
+/* @media screen and (max-width: 400px) {
   .card-divider,
   .card-section {
     justify-content: space-between;
@@ -32,4 +32,4 @@
     justify-self: center;
     align-items: center;
   }
-}
+} */

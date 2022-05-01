@@ -1,7 +1,9 @@
-#remote-parts div > video,
-#local-part div > video {
+#remote-parts video,
+#local-part video {
   width: 100%;
-  height: 400px;
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 #local-part div > video {
@@ -34,6 +36,15 @@
 #local-media-controls-parent i:hover,
 #remote-media-controls-parent i:hover {
   cursor: pointer;
+}
+
+@media only screen and (min-width: 1000px) {
+  #local-part video {
+    width: 100%;
+    height: 50%;
+    margin: 0;
+    padding: 0;
+  }
 }
 /* 
 @media only screen and (max-width: 555.5px) {
