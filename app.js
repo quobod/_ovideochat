@@ -225,9 +225,14 @@ io.on("connection", (socket) => {
     const { rmtUser } = data;
     const user = userManager.getUser(rmtUser);
 
-    dlog(`Participant ${rmtUser} disconnected\n`);
+    if (user) {
+      if ("participantIdentity" in user) {
+        delete user[`participantIdentity`];
+      }
+      dlog(`Participant ${rmtUser} disconnected\n`);
 
-    dlog(`User Count: ${userManager.getUserCount()}\n`);
+      dlog(`User Count: ${userManager.getUserCount()}\n`);
+    }
   });
 
   socket.on("participant", (data) => {
@@ -323,6 +328,10 @@ io.on("connection", (socket) => {
   socket.on("getonlineusers", (objContainer) => {
     objContainer = userManager.getUsers().filter((user) => user.hide == false);
   });
+
+  socket.on("useractivity", (data) => {
+    dlog(`${stringify(data)}`, "app.js/nsocket useractivity emitter");
+  });
 });
 
 server.listen(PORT, "0.0.0.0", () => {
@@ -352,7 +361,7 @@ async function registerMe(userData, done) {
       let results;
 
       if (registeredUser) {
-        dlog(`${rmtId} is registered`);
+        dlog(`${rmtId} is registered`, "app.js file\n\tregisterMe method");
         results = userManager.updateUser(rmtId, {
           socketId: `${socketId}`,
           fname: user.fname,

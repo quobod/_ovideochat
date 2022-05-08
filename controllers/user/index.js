@@ -163,7 +163,7 @@ export const updateUserProfile = asyncHandler(async (req, res) => {
 });
 
 //  @desc           Create room and token
-//  @route          POST /user/room/join
+//  @route          POST /user/room/create
 //  @access         Private
 export const createRoomToken = asyncHandler(async (req, res) => {
   logger.info(`POST: /user/room/create`);
@@ -201,40 +201,6 @@ export const createRoomToken = asyncHandler(async (req, res) => {
   }
 });
 
-//  @desc           Get access token for existing room
-//  @route          POST /user/room/access/token/get
-//  @access         Private
-export const getRoomAccessToken = asyncHandler(async (req, res) => {
-  logger.info(`POST: /user/room/access/token/get`);
-  const user = req.user.withoutPassword();
-
-  const { roomName } = req.body;
-
-  try {
-    // find or create a room with the given roomName
-    const accessToken = getAccessToken(roomName);
-
-    if (accessToken) {
-      dlog(`Created Access Token`);
-      return res.json({ accessToken, status: true });
-    } else {
-      dlog(`Token Failure`);
-      return res.json({
-        status: false,
-        cause: `Failed to create access token`,
-      });
-    }
-  } catch (err) {
-    dlog(`getRoomAccessToken error\n\t\t${stringify(err)}`);
-    return res.json({
-      status: false,
-      cause: `${err}`,
-      detail: `user.controller.getRoomAccessToken method.`,
-      err,
-    });
-  }
-});
-
 //  @desc           Video Chat
 //  @route          GET /user/room/join
 //  @access         Private
@@ -267,32 +233,6 @@ export const joinAsPeer = asyncHandler(async (req, res) => {
       roomName: nameOfRoom,
       videoChat: videoChat,
       chatType: `${chatType.toLowerCase()}`,
-      user: user,
-      rmtId: user._id,
-      room: true,
-    });
-  }
-});
-
-// TODO: replace joinAsPeer
-//  @desc           Enter room
-//  @route          GET /user/room/enter
-//  @access         Private
-export const enterRoom = asyncHandler(async (req, res) => {
-  logger.info(`GET: /user/room/enter`);
-  const user = req.user.withoutPassword();
-
-  const { roomName } = req.query;
-
-  const accessToken = getAccessToken(roomName);
-
-  if (accessToken) {
-    dlog(`Joining ${roomName} with token`);
-
-    res.render("user/room", {
-      hasToken: token ? true : false,
-      token: accessToken,
-      roomName: nameOfRoom,
       user: user,
       rmtId: user._id,
       room: true,

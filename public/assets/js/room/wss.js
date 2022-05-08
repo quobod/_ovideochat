@@ -10,6 +10,7 @@ import {
   removeChildren,
   getElement,
   appendChild,
+  dlog,
 } from "../utils.js";
 
 let socketIO = null,
@@ -24,7 +25,10 @@ export const registerSocketEvents = (socket) => {
     }
     // ui.updatePersonalCode(socket.id);
 
-    console.log(`\n\tSuccessfully connected to socket.io server\n`);
+    dlog(
+      `\n\tSuccessfully connected to socket.io server\n`,
+      "wss.js\n\tregisterSocketEvents method\n\tsocket connect emitter"
+    );
   });
 
   socket.on("updateuserlist", (data) => {
@@ -133,7 +137,7 @@ export const registerSocketEvents = (socket) => {
 };
 
 export const hideMe = (data = null) => {
-  console.log(`\n\thideMe method invoked\n`);
+  dlog(`hideMe method invoked`, "wss.js\n\thideMe method");
   if (data) {
     socketIO.emit("changevisibility", data);
   }
@@ -141,20 +145,30 @@ export const hideMe = (data = null) => {
 
 export const updateSocketUser = (data = null) => {
   if (null != data) {
-    log(`\n\tUpdate dating socket user store with ${stringify(data)}\n`);
+    dlog(`Updating user store`, "wss.js\n\tupdateSocketUser method");
     socketIO.emit("participant", data);
+  }
+};
+
+export const userActivity = (data = null) => {
+  if (null != data) {
+    dlog(`User activity detected`, "wss.js\n\tuserActivity method");
+    socketIO.emit("useractivity", data);
   }
 };
 
 export const participantDisconnected = (data = null) => {
   if (null != data) {
-    log(`\n\tParticiptant disconnected : ${stringify(data)}`);
+    dlog(
+      `Participtant disconnected : ${stringify(data)}`,
+      "wss.js\n\tparticipantDisconnected method"
+    );
     socketIO.emit("participantdisconnected", data);
   }
 };
 
 export const requestChat = (data) => {
-  log(`\n\tChat Request\n\t\t${stringify(data)}`);
+  dlog(`Chat Request\n\t\t${stringify(data)}`);
   socketIO.emit("sendchatrequest", data);
 };
 

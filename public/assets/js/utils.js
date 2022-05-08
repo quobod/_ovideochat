@@ -11,6 +11,10 @@ export const parse = (arg = {}) => {
   return false;
 };
 export const log = console.log.bind(console);
+export const dlog = (arg = "", label = "utils.js") => {
+  console.trace(label);
+  log(`\n\t${arg}\n`);
+};
 export const table = console.table.bind(console);
 export const error = console.error.bind(console);
 export const cls = console.clear.bind(console);
