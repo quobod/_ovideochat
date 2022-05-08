@@ -11,14 +11,23 @@ export const parse = (arg = {}) => {
   return false;
 };
 export const log = console.log.bind(console);
-export const dlog = (arg = "", label = "utils.js") => {
-  console.trace(label);
-  log(`\n\t${arg}\n`);
+export const dlog = (arg = "", label = null) => {
+  if (null != label) {
+    console.group(label);
+    console.log(`\n\t${arg}`);
+    console.groupEnd();
+  } else {
+    log(`\n\t${arg}\n`);
+  }
+};
+export const tlog = (arg = "", label = "utils.js") => {
+  console.group(label);
+  console.trace(`${arg}`);
+  console.groupEnd();
 };
 export const table = console.table.bind(console);
 export const error = console.error.bind(console);
 export const cls = console.clear.bind(console);
-
 export const addHandler = (theElement, whichEvent, method) => {
   if (null != theElement && null != whichEvent && typeof method == "function") {
     theElement.addEventListener(whichEvent, method);
