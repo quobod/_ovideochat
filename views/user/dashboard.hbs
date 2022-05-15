@@ -1,29 +1,59 @@
-<div id="dashboard-main" class="grid-x grid-padding-x grid-padding-y">
-    <div id="index" class="cell hide-for-small-only medium-3">
-        <div class="cell">
-            <div class=" grid-y grid-margin-y">
-                <div class="cell auto index">
-                    <p>
-                        Chat
-                    </p>
-                </div>
-
-                <div class="cell auto index">
-                    <p>
-                        Contacts
-                    </p>
-                </div>
-
-                <div class="cell auto index">
-                    <p>
-                        Profile
-                    </p>
-                </div>
+<!-- Modal -->
+<div class="modal fade" id="settings" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title fs-4 fw-bold" id="staticBackdropLabel">Settings</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a href="/user/profile" id="signed-in-dashboard-link" class="nav-link fs-1 fw-bolder">
+                            Profile
+                        </a>
+                    </li>
+                    <li class="nav-item"><a href="/auth/signout" class="nav-link fs-1 fw-bolder">Signout</a></li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                {{!-- <button type="button" class="btn btn-primary">Understood</button> --}}
             </div>
         </div>
     </div>
+</div>
 
-    <div id="content" class="cell small-12 medium-9">
-        <h2>content</h2>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-2">
+            <p class="fw-bolder" style="font-size:1.5rem;">
+                {{fname}}
+            </p>
+        </div>
+
+        <div class="col auto"></div>
+
+        <div class="col-2">
+            <i class="bi bi-gear text-secondary settings" data-bs-toggle="modal" data-bs-target="#settings"
+                style="font-size:1.5rem;font-weight:bolder;"></i>
+        </div>
+    </div>
+
+    <div class="row" style="margin:10rem 0;">
+        <div class="col-sm-12">
+            <p class="fw-normal">
+                Chat Room
+            </p>
+        </div>
+
+        <div class="col-sm-12">
+            <p class="fw-normal">
+                Contacts
+            </p>
+        </div>
     </div>
 </div>
+<input type="hidden" id="rmtid-input" value="{{rmtId}}">
+<input type="hidden" id="personal-code">

@@ -5,12 +5,13 @@ import * as ui from "./ui.js";
 import {
   cls,
   log,
+  dlog,
+  tlog,
   stringify,
   parse,
   removeChildren,
   getElement,
   appendChild,
-  dlog,
 } from "../utils.js";
 
 let socketIO = null,
@@ -20,14 +21,15 @@ export const registerSocketEvents = (socket) => {
   socketIO = socket;
 
   socket.on("connect", () => {
-    if (connectedpeerselements.personalCode) {
-      connectedpeerselements.personalCode.value = socket.id;
+    if (document.querySelector("#personal-code")) {
+      document.querySelector("#personal-code").value = socket.id;
     }
     // ui.updatePersonalCode(socket.id);
 
     dlog(
       `\n\tSuccessfully connected to socket.io server\n`,
-      "wss.js\n\tregisterSocketEvents method\n\tsocket connect emitter"
+      "wss.js\n\tregisterSocketEvents method\n\tsocket connect emitter",
+      `registerSocketEvents socket.on("connect")`
     );
   });
 
@@ -37,7 +39,10 @@ export const registerSocketEvents = (socket) => {
   });
 
   socket.on("chatrequest", (data) => {
-    log(`\n\tReceived chat request. Request Data ${stringify(data)}\n`);
+    dlog(
+      `\n\tReceived chat request. Request Data ${stringify(data)}\n`,
+      `registerSocketEvents socket.on("updateuserlist")`
+    );
 
     userDetails = {
       senderSocketId: data.sender.socketId,
@@ -45,7 +50,10 @@ export const registerSocketEvents = (socket) => {
       type: data.requestType,
     };
 
-    log(`\n\tUser Details: ${stringify(userDetails)}\n`);
+    dlog(
+      `\n\tUser Details: ${stringify(userDetails)}\n`,
+      `registerSocketEvents`
+    );
 
     const callout = ui.createChatRequestCallout(
       data,
@@ -59,7 +67,10 @@ export const registerSocketEvents = (socket) => {
   });
 
   socket.on("chatrequested", (data) => {
-    log(`\n\tRequested chat ${stringify(data)}`);
+    dlog(
+      `\n\tRequested chat ${stringify(data)}`,
+      `registerSocketEvents socket.on("chatrequested")`
+    );
 
     userDetails = {
       receiverSocketId: data.receiver.socketId,
@@ -67,7 +78,10 @@ export const registerSocketEvents = (socket) => {
       type: data.requestType,
     };
 
-    log(`\n\tUser Details: ${stringify(userDetails)}\n`);
+    dlog(
+      `\n\tUser Details: ${stringify(userDetails)}\n`,
+      `registerSocketEvents socket.on("chatrequested")`
+    );
 
     const callout = ui.chatRequestStatus(data);
     removeChildren(getElement("callout-parent"));
@@ -85,7 +99,10 @@ export const registerSocketEvents = (socket) => {
   });
 
   socket.on("chatrequestaccepted", (data) => {
-    log(`\n\tchatrequestaccepted method data: ${stringify(data)}`);
+    dlog(
+      `\n\tchatrequestaccepted method data: ${stringify(data)}`,
+      `registerSocketEvents socket.on("chatrequestaccepted")`
+    );
     const { senderSocketId, receiverSocketId, type, sender, roomName } = data;
     let xmlHttp, token, chatType;
 
@@ -114,7 +131,7 @@ export const registerSocketEvents = (socket) => {
 
         xmlHttp.send(`chatType=${type}&roomName=${roomName}`);
       } catch (err) {
-        log(err);
+        tlog(err);
         return;
       }
     } else {
@@ -133,11 +150,19 @@ export const registerSocketEvents = (socket) => {
     }
   });
 
+  socket.on("showloggedinusers", (data) => {
+    showLoggedInUsers(data);
+  });
+
   requestRegistration(socket);
 };
 
 export const hideMe = (data = null) => {
-  dlog(`hideMe method invoked`, "wss.js\n\thideMe method");
+  dlog(
+    `hideMe method invoked`,
+    "wss.js\n\thideMe method",
+    `wss.js hideMe method`
+  );
   if (data) {
     socketIO.emit("changevisibility", data);
   }
@@ -145,14 +170,22 @@ export const hideMe = (data = null) => {
 
 export const updateSocketUser = (data = null) => {
   if (null != data) {
-    dlog(`Updating user store`, "wss.js\n\tupdateSocketUser method");
+    dlog(
+      `Updating user store`,
+      "wss.js\n\tupdateSocketUser method",
+      `wss.js updateSocketUser method`
+    );
     socketIO.emit("participant", data);
   }
 };
 
 export const userActivity = (data = null) => {
   if (null != data) {
-    dlog(`User activity detected`, "wss.js\n\tuserActivity method");
+    dlog(
+      `User activity detected`,
+      "wss.js\n\tuserActivity method",
+      `wss.js userActivity method`
+    );
     socketIO.emit("useractivity", data);
   }
 };
@@ -161,16 +194,33 @@ export const participantDisconnected = (data = null) => {
   if (null != data) {
     dlog(
       `Participtant disconnected : ${stringify(data)}`,
-      "wss.js\n\tparticipantDisconnected method"
+      "wss.js\tparticipantDisconnected method"
     );
     socketIO.emit("participantdisconnected", data);
   }
 };
 
 export const requestChat = (data) => {
-  dlog(`Chat Request\n\t\t${stringify(data)}`);
+  dlog(`Chat Request\n\t\t${stringify(data)}`, `wss.js requestChat method`);
   socketIO.emit("sendchatrequest", data);
 };
+
+function showLoggedInUsers(data) {
+  const { users, userCount } = data;
+  let userStatus;
+
+  switch (userCount) {
+    case 1:
+      userStatus = `user connected`;
+      break;
+
+    default:
+      userStatus = `users connected`;
+      break;
+  }
+
+  dlog(`${userCount} ${userStatus}`);
+}
 
 function requestRegistration(socket) {
   if (elements.rmtIdInput) {

@@ -7,6 +7,7 @@ import {
   editContact,
   deleteContact,
   getContacts,
+  getContactCount,
 } from "../../controllers/contacts/index.js";
 import { signedIn, reauthorize } from "../../middleware/AuthMiddleware.js";
 import { lettersOnly } from "../../custom_modules/index.js";
@@ -36,5 +37,7 @@ contact
 contact.route(`/search`).post(signedIn, searchContacts);
 
 contact.route("/contact/delete/:contactId").get(signedIn, deleteContact);
+
+contact.route("/count").get(signedIn, getContactCount);
 
 export default contact;

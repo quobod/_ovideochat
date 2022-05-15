@@ -1,26 +1,36 @@
-<div class="grid-x">
-    <div class="grid-x grid-margin-x grid-margin-y">
-        <div class="cell large-4 small-12 box1">
-            <div class="grid-x" style="justify-content:center;align-items:center;">
-                <p>
-                    <i class="fa-solid fa-address-book fa-2xl fa-fw" style="color:white;"></i>
-                </p>
+<form class="container-fluid" style="margin:10rem 0;" action={{#if reauthenticate}} "/user/profile"
+    {{else}}"/auth/signin"{{/if}} method="post">
+    <h1 class="h3 mb-3 fw-bolder">Please sign in</h1>
+
+    <div class="mt-4 mb-4">
+        <label for="signin-email">Email address</label>
+        <input type="email" class="form-control" name="email" id="signin-email" placeholder="name@example.com">
+
+    </div>
+
+    <div class="mt-4 mb-4">
+        <label for="signin-pwd">Password</label>
+        <input type="password" class="form-control" name="pwd" id="signin-pwd" placeholder="Password">
+
+    </div>
+
+    <div class="mt-4 mb-4">
+        <label>
+            <input type="checkbox" value="remember-me"> Remember me
+        </label>
+    </div>
+
+    <div class="mt-4 mb-4">
+        <div class="container-fluid px-5">
+            <div class="row gx-5">
+                <div class="col-sm-12 col-md-auto m-4">
+                    <button class="btn btn-lg btn-primary" type="submit">Sign in</button>
+                </div>
+
+                <div class="col-sm-12 col-md-auto m-4">
+                    <button class="btn btn-lg btn-primary" type="submit">Register</button>
+                </div>
             </div>
         </div>
-
-        <div class="cell large-4 small-12 box2">
-            <p class="lead cell small-12 medium-9">
-                Manage all of your personal and professional contacts.
-            </p>
-        </div>
-
-        <div class="cell large-4 small-12 box3">
-            <p>
-                <i class="fa-solid fa-globe"></i>
-            </p>
-            <p class="lead">
-                Manage your contacts from anywhere in the world.
-            </p>
-        </div>
     </div>
-</div>
+</form>

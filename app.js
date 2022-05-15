@@ -36,6 +36,7 @@ import landing from "./routers/home/index.js";
 import auth from "./routers/auth/index.js";
 import user from "./routers/user/index.js";
 import contact from "./routers/contact/index.js";
+import api from "./routers/api/index.js";
 import User from "./models/UserModel.js";
 import userManager from "./custom_modules/UsersManager.js";
 
@@ -176,6 +177,7 @@ app.use("/", landing);
 app.use("/auth", auth);
 app.use("/user", user);
 app.use("/contacts", contact);
+app.use("/api", api);
 
 const server = https.createServer(options, app);
 const io = new Server(server);
@@ -187,7 +189,10 @@ io.on("connection", (socket) => {
 
     registerMe(data, (results) => {
       if (results.status) {
+        const users = results.userlist;
+        const unhiddenUsers = users.filter((u) => !u.hide);
         io.emit("updateuserlist", results.userlist);
+        io.emit("showloggedinusers", unhiddenUsers);
       } else {
         dlog(results.cause);
       }

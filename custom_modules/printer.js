@@ -6,11 +6,8 @@ export const error = console.error.bind(console);
 
 export const cls = console.clear.bind(console);
 
-export const dlog = (
-  argument = "printer argument",
-  label = "printer label"
-) => {
+export const dlog = (argument = "printer argument", label = "") => {
   console.group(label);
-  console.trace(argument);
+  console.log(argument);
   console.groupEnd();
 };

@@ -1,6 +1,8 @@
 import {
   log,
   cap,
+  dlog,
+  tlog,
   cls,
   addHandler,
   getAttribute,
@@ -18,7 +20,7 @@ import {
 const socket = io("/");
 
 const start = () => {
-  console.log(`\n\t\tLanded on the room view\n`);
+  dlog(`\n\t\tLanded on the room view\n`);
   registerSocketEvents(socket);
 };
 
@@ -105,9 +107,9 @@ const joinVideoRoom = async (roomName, token, connectionType) => {
 const startRoom = () => {
   if (roomNameInput && joinRoomInput) {
     // log(twl);
-    log(`\n\tWelcome to the video room\n`);
-    log(`\n\tJoining room ${cap(roomName)} with token\n`);
-    log(`\n\tChat type is ${chatType}`);
+    dlog(`\n\tWelcome to the video room\n`);
+    dlog(`\n\tJoining room ${cap(roomName)} with token\n`);
+    dlog(`\n\tChat type is ${chatType}`);
 
     joinVideoRoom(roomName, token, chatType)
       .then((room) => {
@@ -123,7 +125,7 @@ const startRoom = () => {
         window.addEventListener("pagehide", () => room.disconnect());
         window.addEventListener("beforeunload", () => room.disconnect());
 
-        log(`\n\tRMT User ID: ${rmtIdInput.value}`);
+        dlog(`\n\tRMT User ID: ${rmtIdInput.value}`);
 
         updateSocketUser({
           rmtId: rmtIdInput.value,
@@ -132,7 +134,7 @@ const startRoom = () => {
         });
       })
       .catch((err) => {
-        log(err);
+        tlog(err);
         return;
       });
   }

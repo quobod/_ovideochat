@@ -52,6 +52,41 @@ export const getContacts = asyncHandler(async (req, res) => {
   }
 });
 
+//  @desc          Contacts
+//  @route         GET /contacts/count
+//  @access        Private
+export const getContactCount = asyncHandler(async (req, res) => {
+  logger.info(`GET: /contacts/count`);
+
+  try {
+    const user = req.user.withoutPassword();
+    user.fname = cap(user.fname);
+    user.lname = cap(user.lname);
+
+    // console.log(user);
+    console.log(`\n\n`);
+
+    Contact.find()
+      .sort({ fname: "asc" })
+      .where("owner")
+      .equals(`${user._id}`)
+      .exec((err, docs) => {
+        if (err) {
+          console.log(err);
+        }
+        /*  console.log(
+          `\n\n\tContacts: ${typeof docs}\n\t${stringify(docs)}\n\tSize: ${size(
+            docs
+          )}\n\n`
+        ); */
+        return res.json({ status: true, contacts: docs });
+      });
+  } catch (err) {
+    console.log(err);
+    return res.json({ status: false, cause: `${err.cause}` });
+  }
+});
+
 //  @desc           Add new contact
 //  @route          POST /user/contacts
 //  @access         Private

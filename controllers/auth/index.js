@@ -30,7 +30,7 @@ export const signinUser = asyncHandler(async (req, res, next) => {
   } else { */
   passport.authenticate("local", {
     successRedirect: "/user",
-    failureRedirect: "/auth/signin",
+    failureRedirect: "/",
     failureFlash: true,
   })(req, res, next);
   // }
