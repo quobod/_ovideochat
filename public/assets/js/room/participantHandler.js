@@ -121,8 +121,13 @@ export const handleRemoteParticipants = (participant) => {
 
   // Add styling attributes
   addAttribute(participantParent, "class", "remote-video col-12");
+
   addAttribute(recordIcon, "class", "bi bi-record col auto");
+  addAttribute(recordIcon, "style", "font-size: 2rem; color: cornflowerblue;");
+
   addAttribute(stopIcon, "class", "bi bi-stop col auto");
+  addAttribute(stopIcon, "style", "font-size: 2rem; color: cornflowerblue;");
+
   addAttribute(content, "class", "row");
   addAttribute(controlsPanel, "class", "col auto");
   addAttribute(controlsPanel, "id", "remote-controls-panel");
@@ -236,12 +241,30 @@ export const handleLocalParticipant = (participant) => {
 
   // Add styling attributes
   addAttribute(videoIcon, "class", "bi bi-camera-video col auto");
+  addAttribute(videoIcon, "style", "font-size: 2rem; color: cornflowerblue;");
   addAttribute(videoIcon, "id", "local-video-camera");
+
   addAttribute(microphoneIcon, "class", "bi bi-mic col auto");
   addAttribute(microphoneIcon, "id", "local-microphone");
+  addAttribute(
+    microphoneIcon,
+    "style",
+    "font-size: 2rem; color: cornflowerblue;"
+  );
+
   addAttribute(recordIcon, "class", "bi bi-record col auto");
+  addAttribute(recordIcon, "style", "font-size: 2rem; color: cornflowerblue;");
+
   addAttribute(stopIcon, "class", "bi bi-stop");
+  addAttribute(stopIcon, "style", "font-size: 2rem; color: cornflowerblue;");
+
   addAttribute(disconnectIcon, "class", "bi bi-x-square col auto");
+  addAttribute(
+    disconnectIcon,
+    "style",
+    "font-size: 2rem; color: cornflowerblue;"
+  );
+
   addAttribute(content, "class", "row");
   addAttribute(controlsPanel, "class", "col auto");
   addAttribute(controlsPanel, "id", "local-controls-panel");
