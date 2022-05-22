@@ -193,7 +193,11 @@ export const createChatRequestCallout = (
   const span = newElement("span");
 
   // Attributes
-  addAttribute(messageCallout, "class", "alert alert-info");
+  addAttribute(
+    messageCallout,
+    "class",
+    "alert alert-info alert-dismissable fade show"
+  );
   // addAttribute(messageCallout, "data-closable", "");
   addAttribute(closeButton, "class", "btn-close close-button");
   addAttribute(closeButton, "data-bs-dismiss", "alert");

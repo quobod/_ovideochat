@@ -120,12 +120,13 @@ export const handleRemoteParticipants = (participant) => {
   addAttribute(participantDiv, "id", participant.identity);
 
   // Add styling attributes
-  addAttribute(participantParent, "class", "remote-video cell small-12");
-  addAttribute(recordIcon, "class", "fa-solid fa-circle fa-2x");
-  addAttribute(stopIcon, "class", "fa-solid fa-stop fa-2x");
-  addAttribute(content, "class", "grid-x");
-  addAttribute(controlsPanel, "class", "cell small-12");
+  addAttribute(participantParent, "class", "remote-video col-12");
+  addAttribute(recordIcon, "class", "bi bi-record col auto");
+  addAttribute(stopIcon, "class", "bi bi-stop col auto");
+  addAttribute(content, "class", "row");
+  addAttribute(controlsPanel, "class", "col auto");
   addAttribute(controlsPanel, "id", "remote-controls-panel");
+  addAttribute(controls, "class", "row");
   addAttribute(controls, "id", "remote-media-controls-parent");
 
   // Prepare parent for single child
@@ -191,25 +192,25 @@ export const handleRemoteParticipants = (participant) => {
     const recordingEnabled = recordVideo();
 
     if (recordingEnabled) {
-      recordIcon.classList.remove("fa-circle");
-      recordIcon.classList.add("fa-pause");
-      stopIcon.classList.remove("hide");
+      recordIcon.classList.remove("bi-record");
+      recordIcon.classList.add("bi-pause");
+      stopIcon.classList.remove("invisible");
     } else {
-      recordIcon.classList.remove("fa-pause");
-      recordIcon.classList.add("fa-circle");
-      stopIcon.classList.add("hide");
+      recordIcon.classList.remove("bi-pause");
+      recordIcon.classList.add("bi-record");
+      stopIcon.classList.add("invisible");
     }
   });
 
   addClickHandler(stopIcon, (e) => {
-    if (recordIcon.classList.contains("fa-pause")) {
-      recordIcon.classList.remove("fa-pause");
-      recordIcon.classList.add("fa-circle");
-      stopIcon.classList.add("hide");
+    if (recordIcon.classList.contains("bi-pause")) {
+      recordIcon.classList.remove("bi-pause");
+      recordIcon.classList.add("bi-record");
+      stopIcon.classList.add("invisible");
     }
   });
 
-  stopIcon.classList.add("hide");
+  stopIcon.classList.add("invisible");
 };
 
 export const handleLocalParticipant = (participant) => {
@@ -234,17 +235,18 @@ export const handleLocalParticipant = (participant) => {
   addAttribute(participantDiv, "id", participant.identity);
 
   // Add styling attributes
-  addAttribute(videoIcon, "class", "fa-solid fa-video fa-2x");
+  addAttribute(videoIcon, "class", "bi bi-camera-video col auto");
   addAttribute(videoIcon, "id", "local-video-camera");
-  addAttribute(microphoneIcon, "class", "fa-solid fa-microphone fa-2x");
+  addAttribute(microphoneIcon, "class", "bi bi-mic col auto");
   addAttribute(microphoneIcon, "id", "local-microphone");
-  addAttribute(recordIcon, "class", "fa-solid fa-circle fa-2x");
-  addAttribute(stopIcon, "class", "fa-solid fa-stop fa-2x");
-  addAttribute(disconnectIcon, "class", "fa-solid fa-square-xmark fa-2x");
-  addAttribute(content, "class", "grid-x");
-  addAttribute(controlsPanel, "class", "cell small-12");
+  addAttribute(recordIcon, "class", "bi bi-record col auto");
+  addAttribute(stopIcon, "class", "bi bi-stop");
+  addAttribute(disconnectIcon, "class", "bi bi-x-square col auto");
+  addAttribute(content, "class", "row");
+  addAttribute(controlsPanel, "class", "col auto");
   addAttribute(controlsPanel, "id", "local-controls-panel");
-  addAttribute(participantDiv, "class", "local-video cell small-12");
+  addAttribute(participantDiv, "class", "local-video col-sm-12 col-md-6");
+  addAttribute(controls, "class", "row");
   addAttribute(controls, "id", "local-media-controls-parent");
 
   // Prepare parent for single child
@@ -373,11 +375,11 @@ export const handleLocalParticipant = (participant) => {
     const microphoneElement = getElement("local-microphone");
 
     if (muted) {
-      microphoneElement.classList.remove("fa-microphone");
-      microphoneElement.classList.add("fa-microphone-slash");
+      microphoneElement.classList.remove("bi-mic");
+      microphoneElement.classList.add("bi-mic-mute");
     } else {
-      microphoneElement.classList.remove("fa-microphone-slash");
-      microphoneElement.classList.add("fa-microphone");
+      microphoneElement.classList.remove("bi-mic-mute");
+      microphoneElement.classList.add("bi-mic");
     }
   });
 
@@ -392,12 +394,12 @@ export const handleLocalParticipant = (participant) => {
 
     if (muted) {
       log(videoElement.id);
-      videoElement.classList.remove("fa-video");
-      videoElement.classList.add("fa-video-slash");
+      videoElement.classList.remove("bi-camera-video");
+      videoElement.classList.add("bi-camera-video-off");
     } else {
       log(videoElement.id);
-      videoElement.classList.remove("fa-video-slash");
-      videoElement.classList.add("fa-video");
+      videoElement.classList.remove("bi-camera-video-off");
+      videoElement.classList.add("bi-camera-video");
     }
   });
 
@@ -405,24 +407,24 @@ export const handleLocalParticipant = (participant) => {
     const recordingEnabled = recordVideo();
 
     if (recordingEnabled) {
-      recordIcon.classList.remove("fa-circle");
-      recordIcon.classList.add("fa-pause");
-      stopIcon.classList.remove("hide");
+      recordIcon.classList.remove("bi-record");
+      recordIcon.classList.add("bi-pause");
+      stopIcon.classList.remove("invisible");
     } else {
-      recordIcon.classList.remove("fa-pause");
-      recordIcon.classList.add("fa-circle");
-      stopIcon.classList.add("hide");
+      recordIcon.classList.remove("bi-pause");
+      recordIcon.classList.add("bi-record");
+      stopIcon.classList.add("invisible");
     }
   });
 
   addClickHandler(stopIcon, (e) => {
-    if (recordIcon.classList.contains("fa-pause")) {
-      recordIcon.classList.remove("fa-pause");
-      recordIcon.classList.add("fa-circle");
-      stopIcon.classList.add("hide");
+    if (recordIcon.classList.contains("bi-pause")) {
+      recordIcon.classList.remove("bi-pause");
+      recordIcon.classList.add("bi-record");
+      stopIcon.classList.add("invisible");
     }
   });
 
-  stopIcon.classList.add("hide");
+  stopIcon.classList.add("invisible");
   document.title = roomNameInput.value;
 };
