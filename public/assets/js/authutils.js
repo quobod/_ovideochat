@@ -102,10 +102,10 @@ if (document.title.toLowerCase().trim() === "register") {
     element.value = pwd2Text;
 
     if (pwd2Text !== pwd1Text) {
-      regPwd2Error.classList.remove("hide");
+      regPwd2Error.classList.remove("invisible");
       regSubmitButton.disabled = true;
     } else {
-      regPwd2Error.classList.add("hide");
+      regPwd2Error.classList.add("invisible");
       regSubmitButton.disabled = false;
     }
   });

@@ -34,19 +34,23 @@ const userSchema = mongoose.Schema(
       type: Boolean,
       default: true,
     },
-    showFullName: {
-      type: Boolean,
-      default: true,
-    },
-    showEmail: {
-      type: Boolean,
-      default: false,
-    },
     isSignedIn: {
       type: Boolean,
       default: false,
     },
     isPasswordReset: {
+      type: Boolean,
+      default: false,
+    },
+    passwordSaved: {
+      type: Boolean,
+      default: false,
+    },
+    showFullName: {
+      type: Boolean,
+      default: true,
+    },
+    showEmail: {
       type: Boolean,
       default: false,
     },

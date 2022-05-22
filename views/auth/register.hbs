@@ -1,69 +1,84 @@
-{{#if error}}
-<div class="grid-container" style="align-items: stretch;flow-direction:row;margin:0;padding:15px;">
-    <div class="grid-y">
-        {{#each errors}}
-        {{#each . as |key value|}}
-        <p class="cell small-12 lead" style="margin:0;">{{key}}</p>
-        {{/each}}
-        {{/each}}
-    </div>
+<div class="row">
+    <ul class="nav flex-column">
+        <li class="nav-item text-end">
+            <a href="/" id="signed-in-dashboard-link" class="nav-link fw-bolder">
+                Sign In
+            </a>
+        </li>
+    </ul>
 </div>
-{{/if}}
 
-<div class="grid-container form-container" style="margin:5% auto 5% auto;">
-    <form action="/auth/register" method="post" class="grid-x grid-margin-y">
-        <div class="cell small-12">
-            <input type="text" name="fname" id="fname" class="input-control" placeholder="First Name" required />
-        </div>
 
-        <div class="cell small-12">
-            <input type="text" name="lname" id="lname" class="input-control" placeholder="Last Name" required />
-        </div>
+<div class="row">
+    <form action="/auth/register" method="post" style="margin:5rem 0;">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 my-4">
+                    <div class="input-group">
 
-        <div class="cell small-12">
-            <input type="email" name="email" id="reg-email" class="input-control" placeholder="Email" required />
-        </div>
+                        <span class="input-group-text" id="basic-addon1">
+                            <i class="bi bi-sort-alpha-up"></i>
+                        </span>
+                        <input type="text" name="fname" id="fname" class="form-control" placeholder="First Name"
+                            required />
+                    </div>
+                </div>
 
-        <div class="cell small-12">
-            <input type="password" name="pwd" id="reg-pwd" class="input-control" placeholder="Create password"
-                required />
-        </div>
+                <div class="col-12 my-4">
+                    <div class="input-group">
 
-        <div class="cell small-12">
-            <input type="password" name="pwd2" id="reg-pwd2" class="input-control" placeholder="Confirm password"
-                required />
-            <i id="reg-pwd2-error" class="fas fa-asterisk fa-fw hide"
-                style="color:rgb(216, 5, 5);font-size:9px;position:relative;width:100%;margin:0;">
-                &nbsp;<span style="font-size:0.9rem;margin:0;">Passwords don't match!</span>
-            </i>
-        </div>
+                        <span class="input-group-text" id="basic-addon1">
+                            <i class="bi bi-sort-alpha-up"></i>
+                        </span>
 
-        {{!-- <div class="cell small-12">
-            <div class="grid-x" style="margin-bottom: 100px;">
-                <div class="cell medium-6 small-12">
-                    <div class="grid-y">
-                        <div class="cell">
-                            <p class="lead">Enter the number in the picture</p>
-                        </div>
+                        <input type="text" name="lname" id="lname" class="form-control" placeholder="Last Name"
+                            required />
+                    </div>
+                </div>
 
-                        <div class="cell">
-                            <img src="{{imgsrc}}" alt="{{captchaFieldName}}" style="max-height:100px;" />
-                        </div>
+                <div class="col-12 my-4">
+                    <div class="input-group">
 
-                        <div class="cell auto">
-                            <input type="text" name="{{captchaFieldName}}" class="lead" placeholder="I'm not a robot"
-                                required />
-                        </div>
+                        <span class="input-group-text" id="basic-addon1">
+                            <i class="bi bi-envelope"></i>
+                        </span>
+
+                        <input type="email" name="email" id="reg-email" class="form-control" placeholder="Email"
+                            required />
+                    </div>
+                </div>
+
+                <div class="col-12 my-4">
+                    <div class="input-group"><span class="input-group-text" id="basic-addon1">
+                            <i class="bi bi-key"></i>
+                        </span>
+                        <input type="password" name="pwd" id="reg-pwd" class="form-control"
+                            placeholder="Create password" required />
+                    </div>
+                </div>
+
+                <div class="col-12 my-4">
+                    <div class="input-group"><span class="input-group-text" id="basic-addon1">
+                            <i class="bi bi-lock"></i>
+                        </span>
+
+                        <input type="password" name="pwd2" id="reg-pwd2" class="form-control"
+                            placeholder="Confirm password" required />
+
+                        <i id="reg-pwd2-error" class="bi bi-asterisk invisible mt-1"
+                            style="color:rgb(216, 5, 5);font-size:9px;position:relative;width:100%;margin:0;">
+                            &nbsp;<span style="font-size:0.9rem;margin:0;">Passwords don't match!</span>
+                        </i>
                     </div>
                 </div>
             </div>
-        </div> --}}
+        </div>
 
 
         <input type="hidden" name="_csrf" value="{{csrfToken}}" required>
 
 
-        <input id="reg-submit-button" type="submit" class="button" type="button" style="border-radius: 15px;">
+        <input id="reg-submit-button" type="submit" class="btn btn-primary" type="button" style="border-radius: 15px;">
 
     </form>
 </div>
