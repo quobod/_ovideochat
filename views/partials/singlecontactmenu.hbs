@@ -1,36 +1,31 @@
-<div class="title-bar hide" data-responsive-toggle="signedinmenu" data-hide-for="medium">
-    <button class="menu-icon" type="button" data-toggle="signedinmenu"></button>
-    <div class="title-bar-title">Menu</div>
-</div>
-
-<div class="top-bar" id="signedinmenu">
-    <div class="top-bar-left">
-        <ul class="dropdown vertical medium-horizontal menu" data-dropdown-menu>
-            <li class="menu-text">
-                <span class="app-name">
-                    {{#if user}}
-                    {{user.fname}}
-                    {{else}}
-                    RMedia Technology
-                    {{/if}}
-                </span>
-            </li>
-        </ul>
-    </div>
-
-    <div class="top-bar-right">
-        <ul class="dropdown vertical medium-horizontal menu">
-            <li>
-                <a href="/user" id="signed-in-dashboard-link">
-                    Dashboard
-                </a>
-            </li>
-            <li>
-                <a href="/contacts" id="signed-in-dashboard-link">
-                    Contacts
-                </a>
-            </li>
-            <li><a href="/auth/signout">Signout</a></li>
-        </ul>
+<!-- Modal -->
+<div class="modal fade" id="settings" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title fs-4 fw-bold" id="staticBackdropLabel">Dashboard</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a href="/contacts" id="signed-in-dashboard-link" class="nav-link fw-bolder">
+                            Contacts
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/user" id="signed-in-dashboard-link" class="nav-link fw-bolder">
+                            Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item"><a href="/auth/signout" class="nav-link fw-bolder">Signout</a></li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                {{!-- <button type="button" class="btn btn-primary">Understood</button> --}}
+            </div>
+        </div>
     </div>
 </div>

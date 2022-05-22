@@ -14,6 +14,7 @@ const userSchema = mongoose.Schema(
     uname: {
       type: String,
       default: "",
+      unique: true,
     },
     email: {
       type: String,
@@ -33,6 +34,23 @@ const userSchema = mongoose.Schema(
       type: Boolean,
       default: true,
     },
+    showFullName: {
+      type: Boolean,
+      default: true,
+    },
+    showEmail: {
+      type: Boolean,
+      default: false,
+    },
+    isSignedIn: {
+      type: Boolean,
+      default: false,
+    },
+    isPasswordReset: {
+      type: Boolean,
+      default: false,
+    },
+    blockedUsers: [],
   },
   {
     timestamps: true,

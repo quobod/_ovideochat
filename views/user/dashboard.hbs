@@ -1,59 +1,34 @@
-<!-- Modal -->
-<div class="modal fade" id="settings" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-    aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title fs-4 fw-bold" id="staticBackdropLabel">Settings</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a href="/user/profile" id="signed-in-dashboard-link" class="nav-link fs-1 fw-bolder">
-                            Profile
-                        </a>
-                    </li>
-                    <li class="nav-item"><a href="/auth/signout" class="nav-link fs-1 fw-bolder">Signout</a></li>
-                </ul>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                {{!-- <button type="button" class="btn btn-primary">Understood</button> --}}
-            </div>
-        </div>
+<div class="row">
+    <div class="col-2">
+        <p class="fw-bolder" style="font-size:1.5rem;">
+            {{fname}}
+        </p>
+    </div>
+
+    <div class="col auto"></div>
+
+    <div class="col-2">
+        <i class="bi bi-three-dots-vertical menu-item text-secondary settings" data-bs-toggle="modal"
+            data-bs-target="#settings" style="font-size:1.5rem;font-weight:bolder;"></i>
     </div>
 </div>
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-2">
-            <p class="fw-bolder" style="font-size:1.5rem;">
-                {{fname}}
-            </p>
-        </div>
-
-        <div class="col auto"></div>
-
-        <div class="col-2">
-            <i class="bi bi-gear text-secondary settings" data-bs-toggle="modal" data-bs-target="#settings"
-                style="font-size:1.5rem;font-weight:bolder;"></i>
-        </div>
+<div class="row" style="margin:10rem 0;">
+    <div class="col-sm-12 mb-2">
+        <a href="/user/room" id="signed-in-chat-link">
+            <span class="badge bg-info text-dark p-2 fs-2">Peers
+                <span id="peers" class="rounded-pill bg-danger p-1 text-white fs-2"></span>
+            </span>
+        </a>
     </div>
 
-    <div class="row" style="margin:10rem 0;">
-        <div class="col-sm-12">
-            <p class="fw-normal">
-                Chat Room
-            </p>
-        </div>
-
-        <div class="col-sm-12">
-            <p class="fw-normal">
-                Contacts
-            </p>
-        </div>
+    <div class="col-sm-12 mt-2">
+        <a href="/contacts">
+            <span class="badge bg-info text-dark p-2 fs-2">Contacts
+                <span id="contacts" id="peers" class="rounded-pill bg-danger p-1 text-white fs-2"></span>
+            </span>
+        </a>
     </div>
 </div>
 <input type="hidden" id="rmtid-input" value="{{rmtId}}">
-<input type="hidden" id="personal-code">
+<input type="hidden" id="personal-code-input">

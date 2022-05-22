@@ -1,15 +1,10 @@
-<form class="container-fluid" style="margin:10rem 0;" action={{#if reauthenticate}} "/user/profile"
-    {{else}}"/auth/signin"{{/if}} method="post">
-    <h1 class="h3 mb-3 fw-bolder">Please sign in</h1>
-
+<form class="container-fluid" style="margin:10rem 0;" action="/auth/signin" method="post">
     <div class="mt-4 mb-4">
-        <label for="signin-email">Email address</label>
         <input type="email" class="form-control" name="email" id="signin-email" placeholder="name@example.com">
 
     </div>
 
     <div class="mt-4 mb-4">
-        <label for="signin-pwd">Password</label>
         <input type="password" class="form-control" name="pwd" id="signin-pwd" placeholder="Password">
 
     </div>
@@ -25,10 +20,6 @@
             <div class="row gx-5">
                 <div class="col-sm-12 col-md-auto m-4">
                     <button class="btn btn-lg btn-primary" type="submit">Sign in</button>
-                </div>
-
-                <div class="col-sm-12 col-md-auto m-4">
-                    <button class="btn btn-lg btn-primary" type="submit">Register</button>
                 </div>
             </div>
         </div>

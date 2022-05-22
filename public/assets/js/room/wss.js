@@ -21,8 +21,8 @@ export const registerSocketEvents = (socket) => {
   socketIO = socket;
 
   socket.on("connect", () => {
-    if (document.querySelector("#personal-code")) {
-      document.querySelector("#personal-code").value = socket.id;
+    if (document.querySelector("#personal-code-input")) {
+      document.querySelector("#personal-code-input").value = socket.id;
     }
     // ui.updatePersonalCode(socket.id);
 
@@ -154,6 +154,10 @@ export const registerSocketEvents = (socket) => {
     showLoggedInUsers(data);
   });
 
+  socket.on("mycontacts", (data) => {
+    showMyContactsCount(data);
+  });
+
   requestRegistration(socket);
 };
 
@@ -205,21 +209,52 @@ export const requestChat = (data) => {
   socketIO.emit("sendchatrequest", data);
 };
 
-function showLoggedInUsers(data) {
-  const { users, userCount } = data;
-  let userStatus;
+function showMyContactsCount(data) {
+  if (document.querySelector("#contacts")) {
+    const { contactCount } = data;
+    let contactCountStatus;
 
-  switch (userCount) {
-    case 1:
-      userStatus = `user connected`;
-      break;
+    switch (contactCount) {
+      case 1:
+        contactCountStatus`contact`;
+        break;
 
-    default:
-      userStatus = `users connected`;
-      break;
+      default:
+        contactCountStatus = `contacts`;
+        break;
+    }
+
+    dlog(`${contactCount} ${contactCountStatus}`);
+    document.querySelector("#contacts").innerHTML = `<b>${contactCount}</b>`;
   }
+}
 
-  dlog(`${userCount} ${userStatus}`);
+function showLoggedInUsers(data) {
+  if (document.querySelector("#peers")) {
+    const { users } = data;
+    let userStatus;
+    const rmtidInput = document.querySelector("#rmtid-input");
+    const currentUserRmtid = users.find((u) => u.rmtId == rmtidInput.value);
+    const loggedInUsers = users.filter(
+      (u) => u.rmtId != rmtidInput.value && !u.hide
+    );
+    const userCount = loggedInUsers.length;
+
+    if (rmtidInput.value != currentUserRmtid) {
+      switch (userCount) {
+        case 1:
+          userStatus = `user connected`;
+          break;
+
+        default:
+          userStatus = `users connected`;
+          break;
+      }
+
+      dlog(`${userCount} ${userStatus}`);
+      document.querySelector("#peers").innerHTML = `<b>${userCount}</b>`;
+    }
+  }
 }
 
 function requestRegistration(socket) {
@@ -237,6 +272,9 @@ function requestRegistration(socket) {
       }
 
       socketIO.emit("registerme", data);
+      socketIO.emit("mycontactcount", {
+        rmtId: document.querySelector("#rmtid-input").value,
+      });
     }, 700);
   }
 }

@@ -38,6 +38,7 @@ import user from "./routers/user/index.js";
 import contact from "./routers/contact/index.js";
 import api from "./routers/api/index.js";
 import User from "./models/UserModel.js";
+import Contact from "./models/Contacts.js";
 import userManager from "./custom_modules/UsersManager.js";
 
 dotenv.config();
@@ -190,9 +191,10 @@ io.on("connection", (socket) => {
     registerMe(data, (results) => {
       if (results.status) {
         const users = results.userlist;
-        const unhiddenUsers = users.filter((u) => !u.hide);
         io.emit("updateuserlist", results.userlist);
-        io.emit("showloggedinusers", unhiddenUsers);
+        io.emit("showloggedinusers", {
+          users: results.userlist,
+        });
       } else {
         dlog(results.cause);
       }
@@ -205,24 +207,25 @@ io.on("connection", (socket) => {
     const peer = userManager.getUser(userId);
 
     if (peer) {
+      const users = userManager.getUsers();
       dlog(`User ${peer.fname} ${peer.lname} wants to go invisible: ${show}`);
       peer.hide = show;
       io.emit("updateuserlist", userManager.getUsers());
+
+      io.emit("showloggedinusers", {
+        users,
+      });
     }
   });
 
   socket.on("disconnect", () => {
-    const user = userManager.getUser(socket.id);
-
-    if (user != null) {
-      dlog(`User ${user.fname} ${user.lname} disconnected`);
-      userManager.removeUserById(user.socketId);
-    } else {
-      dlog(`Socket user disconnected:\t${socket.id}`);
-      userManager.removeUserById(socket.id);
-    }
+    userManager.removeUserById(socket.id);
 
     io.emit("updateuserlist", userManager.getUsers());
+    const users = userManager.getUsers();
+    io.emit("showloggedinusers", {
+      users,
+    });
     logPeers();
   });
 
@@ -337,6 +340,17 @@ io.on("connection", (socket) => {
   socket.on("useractivity", (data) => {
     dlog(`${stringify(data)}`, "app.js/nsocket useractivity emitter");
   });
+
+  socket.on("mycontactcount", async (data) => {
+    const { rmtId } = data;
+    await Contact.find()
+      .where("owner")
+      .equals(`${rmtId}`)
+      .exec((err, docs) => {
+        const contactCount = docs.length;
+        io.to(socket.id).emit("mycontacts", { contactCount });
+      });
+  });
 });
 
 server.listen(PORT, "0.0.0.0", () => {
@@ -375,14 +389,24 @@ async function registerMe(userData, done) {
           hasCamera: hasCamera,
         });
       } else {
-        results = userManager.addUser({
-          socketId: `${socketId}`,
-          rmtId: `${rmtId}`,
-          fname: user.fname,
-          lname: user.lname,
-          email: user.email,
+        const objUser = {
+          // socketId: `${socketId}`,
+          // rmtId: `${rmtId}`,
+          // fname: user.fname,
+          // lname: user.lname,
+          // email: user.email,
           hasCamera: hasCamera,
+        };
+
+        const newUser = Object.assign({
+          socketId: `${socketId}`,
+          ...objUser,
+          ...res,
         });
+
+        newUser.rmtId = newUser._id;
+
+        results = userManager.addUser(newUser);
       }
       if (results || results.status) {
         done({ status: true, userlist: userManager.getUsers() });

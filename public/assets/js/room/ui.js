@@ -25,90 +25,150 @@ export const updateUserList = (data) => {
     removeChildren(userList);
 
     data.forEach((item, index) => {
-      if (!item.hide && item.rmtId != rmtId) {
-        // console.log(`\n\tItem: ${JSON.stringify(item)}\n\n`);
-        // if (!item.hide) {
-        const cell = newElement("div");
-        const card = newElement("div");
-        const cardDividerHeader = newElement("div");
-        const thumbnail = newElement("div");
-        const divControls = newElement("div");
-        const imgPlaceholder = newElement("i");
-        const videoIcon = newElement("i");
-        const phoneIcon = newElement("i");
-        const paraPeerName = newElement("p");
+      // if (!item.hide && item.rmtId != rmtId) {
+      console.log(`\n\tItem: ${JSON.stringify(item)}\n\n`);
+      // if (!item.hide) {
+      // Accordion components
+      const accordionItem = newElement("div");
+      const accordionButton = newElement("button");
+      const accordionCollapse = newElement("div");
+      const accordionBody = newElement("div");
+      const accordionHeader = newElement("h2");
+      const accordionHeaderPara = newElement("p");
 
-        // Append Componenets
-        appendChild(userList, cell);
-        appendChild(cell, card);
-        appendChild(card, cardDividerHeader);
-        // appendChild(card, cardSectionContent);
-        appendChild(card, thumbnail);
-        appendChild(card, divControls);
-        appendChild(cardDividerHeader, paraPeerName);
-        appendChild(thumbnail, imgPlaceholder);
+      // Card components
+      const card = newElement("div");
+      const cardHeader = newElement("div");
+      const cardBody = newElement("div");
+      const cardTitle = newElement("div");
+      const cardFooter = newElement("div");
 
-        // Add Attributes
-        addAttribute(cell, "class", `cell`);
-        addAttribute(card, "class", "card");
-        addAttribute(cardDividerHeader, "class", "card-divider");
-        addAttribute(thumbnail, "class", "card-section grid-x grid-padding-x");
-        addAttribute(divControls, "class", "card-divider");
-        addAttribute(thumbnail, "class", "grid-x grid-padding-x align-center");
-        addAttribute(
-          imgPlaceholder,
-          "class",
-          "fa-solid fa-user fa-fw fa-3x cell small-12"
-        );
-        // addAttribute(divControls, "class", "grid-container full");
-        addAttribute(videoIcon, "class", "fa-solid fa-video fa-fw fa-2x");
-        addAttribute(videoIcon, "id", `${item.rmtId}`);
-        addAttribute(phoneIcon, "class", "fa-solid fa-phone fa-fw fa-2x");
-        addAttribute(phoneIcon, "id", `${item.rmtId}`);
-        addAttribute(paraPeerName, "class", "lead");
+      // Card controls
+      const divControls = newElement("div");
+      const imgPlaceholder = newElement("i");
+      const videoIcon = newElement("i");
+      const phoneIcon = newElement("i");
+      const paraPeerName = newElement("p");
 
-        // Add innerHTML
-        /* videoIcon.innerHTML = `<b>Video Chat</b>`;
-        chatIcon.innerHTML = `<b>Text Chat</b>`; */
+      /*
+          Append components
+        */
+
+      // Accordion
+      appendChild(userList, accordionItem);
+      appendChild(accordionItem, accordionHeader);
+      appendChild(accordionHeader, accordionButton);
+      appendChild(accordionButton, accordionHeaderPara);
+      appendChild(accordionItem, accordionCollapse);
+      appendChild(accordionCollapse, accordionBody);
+      appendChild(accordionBody, card);
+
+      // Card
+      appendChild(card, cardHeader);
+      appendChild(card, cardBody);
+      appendChild(card, cardFooter);
+      appendChild(cardFooter, divControls);
+      appendChild(cardHeader, paraPeerName);
+
+      // Controls
+      appendChild(divControls, videoIcon);
+      appendChild(divControls, phoneIcon);
+
+      /*
+          Attributes
+        */
+
+      // Accordion
+      addAttribute(accordionItem, "class", `accordion-item`);
+      addAttribute(accordionHeader, "class", "accordion-header");
+      addAttribute(accordionHeader, "id", `${index}`);
+      addAttribute(accordionButton, "class", "accordion-button");
+      addAttribute(accordionButton, "type", "button");
+      addAttribute(accordionButton, "data-bs-toggle", "collapse");
+      addAttribute(accordionButton, "data-bs-target", `#item-${index}`);
+      addAttribute(accordionButton, "aria-expanded", "false");
+      addAttribute(accordionButton, "aria-controls", `item-${index}`);
+      addAttribute(accordionCollapse, "id", `item-${index}`);
+      addAttribute(
+        accordionCollapse,
+        "class",
+        "accordion-collapse callapse show"
+      );
+      addAttribute(accordionCollapse, "aria-labelledby", `item-${index}`);
+      addAttribute(accordionCollapse, "data-bs-parent", `#peer-list`);
+      addAttribute(accordionBody, "class", "accordion-body");
+
+      // Card
+      addAttribute(card, "class", "card");
+      addAttribute(cardHeader, "class", "card-header");
+      addAttribute(cardBody, "class", "card-body");
+      addAttribute(cardFooter, "class", "card-footer");
+
+      // Controls
+      addAttribute(divControls, "class", "row");
+      addAttribute(
+        videoIcon,
+        "class",
+        "bi bi-webcam-fill fs-5 col auto px-2 call"
+      );
+      addAttribute(videoIcon, "id", `${item.rmtId}`);
+      addAttribute(
+        phoneIcon,
+        "class",
+        "bi bi-telephone-fill fs-5 col auto px-2 call"
+      );
+      addAttribute(phoneIcon, "id", `${item.rmtId}`);
+
+      /*
+          InnerHTML
+      */
+
+      // Accordion Header
+      if (item.showFullName) {
+        accordionHeaderPara.innerHTML = `<b>${cap(item.fname)}</b>`;
+        paraPeerName.innerHTML = `<b>${cap(item.fname)} ${cap(item.lname)}</b>`;
+      } else {
+        accordionHeaderPara.innerHTML = `<b>${cap(item.fname)}</b>`;
         paraPeerName.innerHTML = `<b>${cap(item.fname)}</b>`;
-
-        // if (item.rmtId != rmtId) {
-        if (item.hasCamera) {
-          appendChild(divControls, videoIcon);
-          appendChild(divControls, phoneIcon);
-
-          addClickHandler(videoIcon, (e) => {
-            console.log(`\n\tRequesting video chat\n`);
-            const data = {
-              sender: personalCode,
-              receiver: e.target.id,
-              requestType: chatType.VIDEO_CHAT,
-            };
-            requestChat(data);
-          });
-
-          addClickHandler(phoneIcon, (e) => {
-            const data = {
-              sender: personalCode,
-              receiver: e.target.id,
-              requestType: chatType.VOICE_CHAT,
-            };
-            requestChat(data);
-          });
-        } else {
-          appendChild(divControls);
-          appendChild(divControls, phoneIcon);
-
-          addClickHandler(phoneIcon, (e) => {
-            const data = {
-              sender: personalCode,
-              receiver: e.target.id,
-              requestType: chatType.TEXT_CHAT,
-            };
-            requestChat(data);
-          });
-        }
       }
+
+      // if (item.rmtId != rmtId) {
+      if (item.hasCamera) {
+        appendChild(divControls, videoIcon);
+        appendChild(divControls, phoneIcon);
+
+        addClickHandler(videoIcon, (e) => {
+          console.log(`\n\tRequesting video chat\n`);
+          const data = {
+            sender: personalCode,
+            receiver: e.target.id,
+            requestType: chatType.VIDEO_CHAT,
+          };
+          requestChat(data);
+        });
+
+        addClickHandler(phoneIcon, (e) => {
+          const data = {
+            sender: personalCode,
+            receiver: e.target.id,
+            requestType: chatType.VOICE_CHAT,
+          };
+          requestChat(data);
+        });
+      } else {
+        appendChild(divControls);
+        appendChild(divControls, phoneIcon);
+
+        addClickHandler(phoneIcon, (e) => {
+          const data = {
+            sender: personalCode,
+            receiver: e.target.id,
+            requestType: chatType.TEXT_CHAT,
+          };
+          requestChat(data);
+        });
+      }
+      // }
     });
   }
 };
@@ -123,6 +183,8 @@ export const createChatRequestCallout = (
   const messageCallout = newElement("div");
   const messageBody = newElement("div");
   const controlsDiv = newElement("div");
+  const acceptButtonParent = newElement("div");
+  const rejectButtonParent = newElement("div");
   const messageHeader = newElement("h5");
   const message = newElement("p");
   const closeButton = newElement("button");
@@ -131,16 +193,18 @@ export const createChatRequestCallout = (
   const span = newElement("span");
 
   // Attributes
-  addAttribute(messageCallout, "class", "callout primary small");
-  addAttribute(messageCallout, "data-closable", "");
-  addAttribute(closeButton, "class", "close-button");
-  addAttribute(closeButton, "aria-label", "Dismiss alert");
+  addAttribute(messageCallout, "class", "alert alert-primary");
+  // addAttribute(messageCallout, "data-closable", "");
+  addAttribute(closeButton, "class", "btn-close close-button");
+  addAttribute(closeButton, "data-bs-dismiss", "alert");
   addAttribute(closeButton, "type", "button");
-  addAttribute(closeButton, "data-close", "");
+  addAttribute(closeButton, "aria-label", "Close");
   addAttribute(span, "aria-hidden", "true");
-  addAttribute(controlsDiv, "class", "grid-x grid-margin-x align-center");
-  addAttribute(rejectButton, "class", "cell auto button alert");
-  addAttribute(acceptButton, "class", "cell auto button success");
+  addAttribute(controlsDiv, "class", "row");
+  addAttribute(acceptButtonParent, "class", "col auto");
+  addAttribute(rejectButtonParent, "class", "col auto");
+  addAttribute(rejectButton, "class", "btn btn-danger");
+  addAttribute(acceptButton, "class", "btn btn-success");
   // addAttribute(rejectButton, "style", "width:45%; margin-right:5px;");
   // addAttribute(acceptButton, "style", "width:45%;margin-left:5px;");
   addAttribute(message, "style", "font-size:1.5rem;font-weight:bolder;");
@@ -156,8 +220,10 @@ export const createChatRequestCallout = (
   // Append elements
   appendChild(messageCallout, message);
   appendChild(messageCallout, controlsDiv);
-  appendChild(controlsDiv, rejectButton);
-  appendChild(controlsDiv, acceptButton);
+  appendChild(controlsDiv, rejectButtonParent);
+  appendChild(controlsDiv, acceptButtonParent);
+  appendChild(rejectButtonParent, rejectButton);
+  appendChild(acceptButtonParent, acceptButton);
   appendChild(messageCallout, closeButton);
   appendChild(closeButton, span);
 

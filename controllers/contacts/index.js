@@ -43,7 +43,6 @@ export const getContacts = asyncHandler(async (req, res) => {
           csrfToken: req.csrfToken,
           hasContacts: size(docs) > 0,
           contacts: docs,
-          multicontact: true,
         });
       });
   } catch (err) {

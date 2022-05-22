@@ -18,7 +18,6 @@ export const dbMessage = (arg = "") => chalk.rgb(185, 220, 250).bold(`${arg}`);
 
 export const successStatus = (arg = "") => `${arg}`.brightWhite.bgGreen;
 
-export const warningStatus = (arg = "") =>
-  `${arg}`.rgb(55, 55, 95).brightYellow;
+export const warningStatus = (arg = "") => chalk.rgb(55, 55, 95).bold(`${arg}`);
 
 export const errorStatus = (arg = "") => `${arg}`.brightWhite.brightRed;

@@ -1,8 +1,11 @@
-{{#if multicontact}}
-{{>contactmenu}}
-{{/if}}
 {{#if singlecontact}}
 {{>singlecontactmenu}}
+{{/if}}
+{{#if dashboard}}
+{{>dashboardmenu}}
+{{/if}}
+{{#if connectedpeers}}
+{{>connectedpeersmenu}}
 {{/if}}
 {{#if profile}}
 {{>profilemenu}}
@@ -12,9 +15,6 @@
 {{/if}}
 {{#if signin}}
 {{>signedoutmenu}}
-{{/if}}
-{{#if connectedpeers}}
-{{>chatmenu}}
 {{/if}}
 {{#if room}}
 {{>chatmenu}}
