@@ -193,7 +193,7 @@ export const createChatRequestCallout = (
   const span = newElement("span");
 
   // Attributes
-  addAttribute(messageCallout, "class", "alert alert-primary");
+  addAttribute(messageCallout, "class", "alert alert-info");
   // addAttribute(messageCallout, "data-closable", "");
   addAttribute(closeButton, "class", "btn-close close-button");
   addAttribute(closeButton, "data-bs-dismiss", "alert");
@@ -246,12 +246,12 @@ export const chatRequestStatus = (data) => {
   const span = newElement("span");
 
   // Add Attributes
-  addAttribute(callout, "class", "callout primary small");
-  addAttribute(callout, "data-closable", "");
-  addAttribute(closeButton, "class", "close-button");
-  addAttribute(closeButton, "aria-label", "");
+  addAttribute(callout, "class", "alert alert-info small");
+  // addAttribute(callout, "data-closable", "");
+  addAttribute(closeButton, "class", "btn-close close-button");
+  addAttribute(closeButton, "data-bs-dismiss", "alert");
   addAttribute(closeButton, "type", "button");
-  addAttribute(closeButton, "data-close", "");
+  addAttribute(closeButton, "aria-label", "Close");
   addAttribute(span, "aria-hidden", "true");
 
   // innerHTML
@@ -278,12 +278,12 @@ export const handleChatRequestResponse = (data) => {
   let responseMessage;
 
   // Add Attributes
-  addAttribute(callout, "class", "callout primary small");
+  addAttribute(callout, "class", "alert alert-info small");
   addAttribute(callout, "data-closable", "");
-  addAttribute(closeButton, "class", "close-button");
-  addAttribute(closeButton, "aria-label", "");
+  addAttribute(closeButton, "class", "btn-close close-button");
+  addAttribute(closeButton, "data-bs-dismiss", "alert");
   addAttribute(closeButton, "type", "button");
-  addAttribute(closeButton, "data-close", "");
+  addAttribute(closeButton, "aria-label", "Close");
   addAttribute(span, "aria-hidden", "true");
 
   switch (response.toLowerCase().trim()) {
