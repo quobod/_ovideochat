@@ -1,20 +1,55 @@
-<div class="grid-container form-container" style="margin:5% auto 5% auto;">
-    <form id="signin-form" action={{#if reauthenticate}} "/user/profile" {{else}}"/auth/signin"{{/if}} method="post"
-        class="grid-x grid-margin-y">
-        <div class="cell small-12">
-            <input type="email" name="email" id="signin-email" class="input-control" placeholder="Email" required />
+<div class="row">
+    <div class="col-2">
+        <p class="fw-bolder" style="font-size:1.5rem;">
+            {{fname}}
+        </p>
+    </div>
+
+    <div class="col auto"></div>
+
+    <div class="col-2">
+        <i class="bi bi-three-dots-vertical menu-item text-secondary settings" data-bs-toggle="modal"
+            data-bs-target="#settings" style="font-size:1.5rem;font-weight:bolder;"></i>
+    </div>
+</div>
+
+<div class="row" style="margin:5% auto 5% auto;">
+    <form id="signin-form" style="margin:6rem 0;" action={{#if reauthenticate}} "/user/profile"
+        {{else}}"/auth/signin"{{/if}} method="post">
+        <div class="container">
+            <div class="col my-4">
+                <div class="input-group">
+                    <span class="input-group-text" id="basic-addon1">
+                        <i class="bi bi-envelope"></i>
+                    </span>
+
+                    <input type="email" name="email" id="signin-email" class="form-control" placeholder="Email"
+                        required />
+                </div>
+            </div>
+
+            <div class="col my-4">
+                <div class="input-group">
+                    <span class="input-group-text" id="basic-addon1">
+                        <i class="bi bi-key"></i>
+                    </span>
+                    <input type="password" name="pwd" id="signin-pwd" class="form-control" placeholder="Password"
+                        required />
+                </div>
+            </div>
+
+            {{#if reauthenticate}}
+            {{else}}
+            <input type="hidden" name="_csrf" value="{{csrfToken}}" readonly>
+            {{/if}}
+
+            <div class="col my-4">
+                <div class="input-group">
+                    <input id="sig-submit-button" type="submit" class="btn btn-primary" type="button"
+                        style="border-radius: 15px;">
+                </div>
+            </div>
+
         </div>
-
-        <div class="cell small-12">
-            <input type="password" name="pwd" id="signin-pwd" class="input-control" placeholder="Password" required />
-        </div>
-
-        {{#if reauthenticate}}
-        {{else}}
-        <input type="hidden" name="_csrf" value="{{csrfToken}}" readonly>
-        {{/if}}
-
-
-        <input id="sig-submit-button" type="submit" class="button" type="button" style="border-radius: 15px;">
     </form>
 </div>

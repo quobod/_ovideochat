@@ -25,6 +25,10 @@ const userSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    passwordResetToken: {
+      type: String,
+      required: false,
+    },
     isAdmin: {
       type: Boolean,
       required: true,
