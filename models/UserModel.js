@@ -25,7 +25,11 @@ const userSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    passwordResetToken: {
+    resetToken: {
+      type: String,
+      required: false,
+    },
+    expireToken: {
       type: String,
       required: false,
     },
