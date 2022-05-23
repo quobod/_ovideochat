@@ -89,6 +89,10 @@ export const viewUserProfile = asyncHandler(async (req, res) => {
   logger.info(`GET: /user/profile`);
   const user = req.user.withoutPassword() || null;
 
+  if (null != user) {
+    user.fname = cap(user.fname);
+  }
+
   if (user) {
     res.render("user/profile", {
       title: `Profile`,
