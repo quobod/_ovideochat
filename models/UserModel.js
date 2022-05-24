@@ -46,10 +46,6 @@ const userSchema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    isPasswordReset: {
-      type: Boolean,
-      default: false,
-    },
     passwordSaved: {
       type: Boolean,
       default: false,

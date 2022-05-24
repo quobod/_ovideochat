@@ -7,6 +7,7 @@ import {
   userRegister,
   userSignin,
   userSignout,
+  generatePasswordResetToken,
 } from "../../controllers/auth/index.js";
 
 const auth = Router();
@@ -33,6 +34,8 @@ auth
     ],
     registerUser
   );
+
+auth.route("/password/reset/generatetoken").get(generatePasswordResetToken);
 
 auth.route("/signout").get(userSignout);
 

@@ -3,8 +3,8 @@ import bunyan from "bunyan";
 import passport from "passport";
 import { body, check, validationResult } from "express-validator";
 import User from "../../models/UserModel.js";
-import { stringify, parse, createHash } from "../../custom_modules/index.js";
-import { create } from "../../custom_modules/captcha.js";
+import { stringify, parse } from "../../custom_modules/index.js";
+import { createHash, generateToken } from "../../custom_modules/hasher.js";
 
 const logger = bunyan.createLogger({ name: "Auth Controller" });
 
@@ -18,10 +18,10 @@ export const signinUser = asyncHandler(async (req, res, next) => {
   const { email, pwd } = req.body;
   console.log(`\n\tEmail: ${email}\tPassword: ${pwd}`);
 
-  const captchaId = "captcha";
+  /* const captchaId = "captcha";
   const captchaFieldName = "captcha";
   const captcha = create({ cookie: captchaId });
-  const captchaValid = captcha.check(req, req.body[captchaFieldName]);
+  const captchaValid = captcha.check(req, req.body[captchaFieldName]); */
 
   /* if (!captchaValid) {
     console.log(`\n\tCaptcha Invalid`);
@@ -164,3 +164,39 @@ export const registerUser = (req, res, next) => {
     })(req, res, next);
   }
 };
+
+// @desc        Forgot password
+// @route       POST /auth/forgotpassword
+// @access      Public
+export const forgotPassword = asyncHandler(async ({ body: { email } }, res) => {
+  const user = User.findOne({ email });
+
+  if (!user) {
+    res.status(404).json({ status: false, cause: `User ${email} not found` });
+  } else {
+  }
+});
+
+export const testGenerateToken = asyncHandler(async (req, res) => {
+  generateToken("test", (resp) => {
+    if (resp.status) {
+      const { status, original, hash } = resp;
+      res.json({ original, hash });
+    } else {
+      const { status, error } = resp;
+      res.json({ status, error });
+    }
+  });
+});
+
+export const generatePasswordResetToken = asyncHandler(async (req, res) => {
+  generateToken((resp) => {
+    if (resp.status) {
+      const { status, original, hash } = resp;
+      res.json({ original, hash });
+    } else {
+      const { status, error } = resp;
+      res.json({ status, error });
+    }
+  });
+});
