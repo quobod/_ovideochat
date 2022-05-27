@@ -43,6 +43,7 @@ export const getContacts = asyncHandler(async (req, res) => {
           csrfToken: req.csrfToken,
           hasContacts: size(docs) > 0,
           contacts: docs,
+          multicontact: true,
         });
       });
   } catch (err) {
@@ -87,7 +88,7 @@ export const getContactCount = asyncHandler(async (req, res) => {
 });
 
 //  @desc           Add new contact
-//  @route          POST /user/contacts
+//  @route          POST /contacts
 //  @access         Private
 export const addNewContact = asyncHandler(async (req, res) => {
   logger.info(`POST: /user/contacts`);
@@ -119,7 +120,7 @@ export const addNewContact = asyncHandler(async (req, res) => {
 
     console.log(`${stringify(arrResult)}\n`);
 
-    return res.render("user/dashboard", {
+    return res.render("contact/contacts", {
       title: "Error",
       error: true,
       errors: arrResult,
@@ -143,12 +144,12 @@ export const addNewContact = asyncHandler(async (req, res) => {
       .then((doc) => {
         console.log("\n\tNew contact " + doc);
 
-        res.redirect("/user/dashboard");
+        res.redirect("/contacts");
       })
       .catch((err) => {
         console.log(err);
 
-        res.redirect("/user/dashboard");
+        res.redirect("/contacts");
       });
 
     /*  User.findOne({ email: `${email}` })

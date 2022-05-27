@@ -216,7 +216,7 @@ function showMyContactsCount(data) {
 
     switch (contactCount) {
       case 1:
-        contactCountStatus`contact`;
+        contactCountStatus = `contact`;
         break;
 
       default:

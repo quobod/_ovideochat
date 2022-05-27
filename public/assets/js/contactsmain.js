@@ -77,26 +77,6 @@ addHandler(elements.contactPhone, "keyup", (e) => {
   element.value = text;
 });
 
-if (document.title.toLowerCase().trim() == "dashboard") {
-  addHandler(elements.newContactLink, "click", () => {
-    log(`\n\tNew Contact link clicked\n`);
-    prepareNewContactLink();
-
-    elements.newContactForm.classList.toggle("show");
-  });
-
-  addClickHandler(elements.searchLink, (e) => {
-    log(`\n\tSearch link clicked\n`);
-    prepareSearchLink();
-    elements.searchForm.classList.toggle("show");
-    elements.searchLink.innerHTML = elements.searchForm.classList.contains(
-      "show"
-    )
-      ? "Hide Search"
-      : "Show Search";
-  });
-}
-
 addHandler(elements.addEmailButton, "click", () => {
   log(`\n\tAdded email field\n`);
   const editContactForm = elements.editContactForm;
@@ -186,7 +166,7 @@ addHandler(elements.addPhoneButton, "click", () => {
 });
 
 // Helper functions
-function prepareNewContactLink() {
+/* function prepareNewContactLink() {
   log(`\n\tNew contact link prepared\n`);
 
   if (elements.searchForm.classList.contains("show")) {
@@ -203,12 +183,12 @@ function prepareSearchLink() {
   if (elements.newContactForm.classList.contains("show")) {
     elements.newContactForm.classList.remove("show");
   }
-}
+} */
 
 // Messages
-addHandler(elements.closeButton, "click", (e) => {
+/* addHandler(elements.closeButton, "click", (e) => {
   const target = e.target;
   const parent = target.parentElement;
   const grandParent = parent.parentElement;
   grandParent.remove();
-});
+}); */

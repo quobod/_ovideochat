@@ -34,10 +34,12 @@ export const newContactForm = document.querySelector("#new-contact-form");
 export const searchForm = document.querySelector("#search-form");
 
 // Dialog
-export const dialog = document.querySelector("#dialog");
+export const addNewContactLink = document.querySelector(
+  "#add-new-contact-link"
+);
 
 // RMT User ID
-export const rmtUserId = document.querySelector("#rmtuserid");
+export const rmtUserId = document.querySelector("#rmtid-input");
 
 // Personal Code
 export const personalCode = document.querySelector("#personal-code");

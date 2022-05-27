@@ -1,0 +1,115 @@
+<!-- Modal -->
+<div class="modal fade" id="settings" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title fs-4 fw-bold" id="staticBackdropLabel">Navigation</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a href="/user" id="signed-in-dashboard-link" class="nav-link fw-bolder">
+                                Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item"><a href="/auth/signout" class="nav-link fw-bolder">Signout</a></li>
+                    </ul>
+                </div>
+                {{#unless hasContacts}}
+                {{else}}
+                <div class="row">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <i class="bi bi-gear menu-item text-secondary settings" data-bs-toggle="modal"
+                                data-bs-target="#contactform" style="font-size:1.5rem;font-weight:bolder;"></i>
+                        </li>
+                    </ul>
+                </div>
+                {{/unless}}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                {{!-- <button type="button" class="btn btn-primary">Understood</button> --}}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="contactform" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-2"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title fs-4 fw-bold" id="staticBackdropLabel">New Contact</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cancel"></button>
+            </div>
+            <div class="modal-body">
+                <form action="/contacts/add" method="post" class="mx-auto">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12 py-3">
+                                <div class="input-group">
+                                    <span class="input-group-text" id="basic-addon1">
+                                        <i class="bi bi-sort-alpha-up"></i>
+                                    </span>
+
+                                    <input type="text" name="fname" id="contact-fname" class="form-control"
+                                        placeholder="First Name" required />
+                                </div>
+                            </div>
+
+                            <div class="col-12 py-3">
+                                <div class="input-group">
+                                    <span class="input-group-text" id="basic-addon1">
+                                        <i class="bi bi-sort-alpha-down"></i>
+                                    </span>
+
+                                    <input type="text" name="lname" id="contact-lname" class="form-control"
+                                        placeholder="Last Name" required />
+                                </div>
+                            </div>
+
+                            <div class="col-12 py-3">
+                                <div class="input-group">
+                                    <span class="input-group-text" id="basic-addon1">
+                                        <i class="bi bi-envelope"></i>
+                                    </span>
+
+                                    <input type="email" name="email" id="contact-email" class="form-control"
+                                        placeholder="Email" required />
+                                </div>
+                            </div>
+
+                            <div class="col-12 py-3">
+                                <div class="input-group">
+                                    <span class="input-group-text" id="basic-addon1">
+                                        <i class="bi bi-phone"></i>
+                                    </span>
+
+                                    <input type="tel" name="phone" id="contact-phone" class="form-control"
+                                        placeholder="Phone" required />
+                                </div>
+                            </div>
+                        </div>
+
+                        <input type="hidden" name="_csrf" value="{{csrfToken}}" required>
+                        <div class="row py-3">
+                            <div class="col-12">
+                                <input id="contact-submit-button" type="submit" class="btn btn-primary" type="button"
+                                    style="border-radius: 15px;">
+
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                {{!-- <button type="button" class="btn btn-primary">Understood</button> --}}
+            </div>
+        </div>
+    </div>
+</div>

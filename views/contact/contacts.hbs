@@ -1,37 +1,21 @@
-<!-- Modal -->
-<div class="modal fade" id="settings" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-    aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title fs-4 fw-bold" id="staticBackdropLabel">Navigation</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a href="/user" id="signed-in-dashboard-link" class="nav-link fw-bolder">
-                            Dashboard
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/user/profile" id="signed-in-dashboard-link" class="nav-link fw-bolder">
-                            Profile
-                        </a>
-                    </li>
-                    <li class="nav-item"><a href="/auth/signout" class="nav-link fw-bolder">Signout</a></li>
-                </ul>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                {{!-- <button type="button" class="btn btn-primary">Understood</button> --}}
-            </div>
-        </div>
+<div class="row">
+    <div class="col-2">
+        <p class="fw-bolder" style="font-size:1.5rem;">
+            {{user.fname}}
+        </p>
+    </div>
+
+    <div class="col auto"></div>
+
+    <div class="col-2">
+        <i class="bi bi-three-dots-vertical menu-item text-secondary settings" data-bs-toggle="modal"
+            data-bs-target="#settings" style="font-size:1.5rem;font-weight:bolder;"></i>
     </div>
 </div>
 
-{{#if hasContacts}}
+
 <div class="row m-5">
+    {{#if hasContacts}}
     <div class="accordion" id="contacts">
         {{#each contacts}}
         <div class="accordion-item">
@@ -45,7 +29,7 @@
             <div id="collapse{{_id}}" class="accordion-collapse collapse show" aria-labelledby="{{_id}}"
                 data-bs-parent="#contacts">
                 <div class="accordion-body">
-                    <div class="col-md-3 col-sm-12">
+                    <div class="col-12">
                         <div class="card">
                             <div class="card-header">
                                 <p class="fs-2 fw-bold">
@@ -54,15 +38,35 @@
                             </div>
 
                             <div class="card-body">
-                                <h5 class="card-title">
-                                    Emails
-                                </h5>
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <h5 class="card-title">
+                                                Emails
+                                            </h5>
 
-                                {{#each emails}}
-                                <p>
-                                    {{.}}
-                                </p>
-                                {{/each}}
+                                            {{#each emails}}
+                                            <p>
+                                                {{.}}
+                                            </p>
+                                            {{/each}}
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <h5 class="card-title">
+                                                Phones
+                                            </h5>
+
+                                            {{#each phones}}
+                                            <p>
+                                                {{.}}
+                                            </p>
+                                            {{/each}}
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="card-footer">
@@ -75,13 +79,14 @@
         </div>
         {{/each}}
     </div>
-</div>
-{{else}}
-<div class="row m-5">
+    {{else}}
     <div class="col auto">
-        <button class="btn btn-primary">
-            Add Contact
-        </button>
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <i class="bi bi-gear menu-item text-secondary settings" data-bs-toggle="modal"
+                    data-bs-target="#contactform" style="font-size:1.5rem;font-weight:bolder;"></i>
+            </li>
+        </ul>
     </div>
 </div>
 {{/if}}
