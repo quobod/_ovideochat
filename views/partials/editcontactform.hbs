@@ -1,4 +1,4 @@
-<form id="edit-contact-form" action="/user/contacts/contact/{{doc._id}}" method="POST">
+<form id="edit-contact-form" action="/contacts/edit/contact" method="POST">
     <div class="input-group py-1">
         <span class="input-group-label">
             <i class="bi bi-sort-alpha-up" style="font-size:2rem;"></i>
@@ -35,7 +35,7 @@
     </div>
     {{/each}}
 
-    <input type="hidden" name="rmtid" value="{{doc._id}}">
+    <input type="hidden" name="contactid" value="{{contactid}}">
     <div class="form-group py-4">
         <input type="submit" class="btn btn-primary" value="Submit">
     </div>

@@ -31,6 +31,8 @@ contact
 
 contact.route("/view/contact/:contactId").get(signedIn, viewContact);
 
+contact.route("/edit/contact").post(signedIn, editContact);
+
 contact.route(`/search`).post(signedIn, searchContacts);
 
 contact.route("/delete/:contactId").get(signedIn, deleteContact);

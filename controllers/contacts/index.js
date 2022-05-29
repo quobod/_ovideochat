@@ -250,7 +250,7 @@ export const viewContact = asyncHandler(async (req, res) => {
         doc: doc,
         csrfToken: req.csrfToken,
         title: doc.fname,
-        rmtuserid: req.user._id,
+        contactid: doc._id,
         user: true,
         singlecontact: true,
       });
@@ -262,12 +262,11 @@ export const viewContact = asyncHandler(async (req, res) => {
 //  @route          POST /contacts/edit/contact/:contactId
 //  @access         Private
 export const editContact = asyncHandler(async (req, res) => {
-  dashboard;
-  logger.info(`GET: /contacts/edit/contact/:contactId`);
+  logger.info(`POST: /contacts/edit/contact/:contactId`);
   log(`\n\tEditing contact\n`);
 
   const data = req.body;
-  const rmtid = data.rmtid;
+  const contactid = req.body.contactid;
   const fname = data.fname;
   const lname = data.lname;
 
@@ -303,7 +302,7 @@ export const editContact = asyncHandler(async (req, res) => {
   };
 
   Contact.findOneAndUpdate(
-    { _id: `${rmtid}` },
+    { _id: `${contactid}` },
     updatedData,
     updateOptions,
     (err, doc) => {
