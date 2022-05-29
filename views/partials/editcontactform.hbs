@@ -1,7 +1,7 @@
 <form id="edit-contact-form" action="/user/contacts/contact/{{doc._id}}" method="POST">
     <div class="input-group py-1">
         <span class="input-group-label">
-            <i class="bi bi-sort-alpha-up"></i>
+            <i class="bi bi-sort-alpha-up" style="font-size:2rem;"></i>
         </span>
 
         <input type="text" name="fname" value="{{doc.fname}}" class="form-control" required>
@@ -9,7 +9,7 @@
 
     <div class="input-group py-1">
         <span class="input-group-label">
-            <i class="bi bi-sort-alpha-down"></i>
+            <i class="bi bi-sort-alpha-down" style="font-size:2rem;"></i>
         </span>
 
         <input type="text" name="lname" value="{{doc.lname}}" class="form-control" required>
@@ -18,7 +18,7 @@
     {{#each doc.emails as |key val|}}
     <div class="input-group py-1">
         <span class="input-group-label">
-            <f class="bi bi-envelope"></f>
+            <f class="bi bi-envelope" style="font-size:2rem;"></f>
         </span>
 
         <input type="email" name="email{{val}}" value="{{key}}" class="form-control">
@@ -28,7 +28,7 @@
     {{#each doc.phones as |key val|}}
     <div class="input-group py-1">
         <span class="input-group-label">
-            <i class="bi bi-phone"></i>
+            <i class="bi bi-phone" style="font-size:2rem;"></i>
         </span>
 
         <input type="tel" name="phone{{val}}" value="{{key}}" class="form-control">
