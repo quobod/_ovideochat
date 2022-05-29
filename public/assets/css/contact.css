@@ -1,0 +1,14 @@
+.settings:hover,
+.menu-item:hover,
+.control:hover {
+  cursor: pointer;
+}
+
+.contact-edit-form {
+  height: 379px;
+  overflow-y: scroll;
+}
+
+::-webkit-scrollbar {
+  -webkit-backface-visibility: hidden;
+}

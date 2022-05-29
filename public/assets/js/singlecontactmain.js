@@ -62,7 +62,7 @@ addHandler(elements.addEmailButton, "click", () => {
   const trashIcon = newElement("i");
 
   // Add attributes
-  addAttribute(divInputGroup, "class", "input-group");
+  addAttribute(divInputGroup, "class", "input-group py-1");
   addAttribute(formGroupLabelSpan, "class", "input-group-label");
   addAttribute(formGroupLabelIcon, "class", "bi bi-envelope");
   addAttribute(emailInput, "type", "email");
@@ -100,7 +100,7 @@ addHandler(elements.addPhoneButton, "click", () => {
   const trashIcon = newElement("i");
 
   // Add attributes
-  addAttribute(divInputGroup, "class", "input-group");
+  addAttribute(divInputGroup, "class", "input-group py-1");
   addAttribute(formGroupLabelSpan, "class", "input-group-label");
   addAttribute(formGroupLabelIcon, "class", "bi bi-phone");
   addAttribute(phoneInput, "type", "tel");
