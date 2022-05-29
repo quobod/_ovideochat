@@ -64,6 +64,7 @@ addHandler(elements.addEmailButton, "click", () => {
   // Add attributes
   addAttribute(divInputGroup, "class", "input-group py-1");
   addAttribute(formGroupLabelSpan, "class", "input-group-label");
+  addAttribute(formGroupLabelSpan, "style", "margin-right:5px;");
   addAttribute(formGroupLabelIcon, "class", "bi bi-envelope fw-bolder");
   addAttribute(formGroupLabelIcon, "style", "font-size:2rem;");
   addAttribute(emailInput, "type", "email");
@@ -104,6 +105,7 @@ addHandler(elements.addPhoneButton, "click", () => {
   // Add attributes
   addAttribute(divInputGroup, "class", "input-group py-1");
   addAttribute(formGroupLabelSpan, "class", "input-group-label");
+  addAttribute(formGroupLabelSpan, "style", "margin-right:5px;");
   addAttribute(formGroupLabelIcon, "class", "bi bi-phone fw-bolder");
   addAttribute(formGroupLabelIcon, "style", "font-size:2rem;");
   addAttribute(phoneInput, "type", "tel");
