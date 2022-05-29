@@ -29,14 +29,11 @@ contact
     addNewContact
   );
 
-contact
-  .route("/contact/:contactId")
-  .get(signedIn, viewContact)
-  .post(signedIn, editContact);
+contact.route("/view/contact/:contactId").get(signedIn, viewContact);
 
 contact.route(`/search`).post(signedIn, searchContacts);
 
-contact.route("/contact/delete/:contactId").get(signedIn, deleteContact);
+contact.route("/delete/:contactId").get(signedIn, deleteContact);
 
 contact.route("/count").get(signedIn, getContactCount);
 

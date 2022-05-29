@@ -1,38 +1,38 @@
 <form id="edit-contact-form" action="/user/contacts/contact/{{doc._id}}" method="POST">
-    <div class="input-group">
-        <span class="input-group-label">First Name</span>
+    <div class="form-group">
+        <span class="form-group-label">First Name</span>
 
-        <input type="text" name="fname" value="{{doc.fname}}" class="input-group-field" required>
+        <input type="text" name="fname" value="{{doc.fname}}" class="form-control" required>
     </div>
 
-    <div class="input-group">
-        <span class="input-group-label">Last Name</span>
+    <div class="form-group">
+        <span class="form-group-label">Last Name</span>
 
-        <input type="text" name="lname" value="{{doc.lname}}" class="input-group-field" required>
+        <input type="text" name="lname" value="{{doc.lname}}" class="form-control" required>
     </div>
 
     {{#each doc.emails as |key val|}}
-    <div class="input-group">
-        <span class="input-group-label">
-            <f class="fa-solid fa-envelope"></f>
+    <div class="form-group">
+        <span class="form-group-label">
+            <f class="bi bi-envelope"></f>
         </span>
 
-        <input type="email" name="email{{val}}" value="{{key}}" class="input-group-field">
+        <input type="email" name="email{{val}}" value="{{key}}" class="form-control">
     </div>
     {{/each}}
 
     {{#each doc.phones as |key val|}}
-    <div class="input-group">
-        <span class="input-group-label">
-            <f class="fa-solid fa-phone"></f>
+    <div class="form-group">
+        <span class="form-group-label">
+            <i class="bi bi-phone"></i>
         </span>
 
-        <input type="tel" name="phone{{val}}" value="{{key}}" class="input-group-field">
+        <input type="tel" name="phone{{val}}" value="{{key}}" class="form-control">
     </div>
     {{/each}}
 
     <input type="hidden" name="rmtid" value="{{doc._id}}">
-    <div class="input-group-button">
-        <input type="submit" class="button" value="Submit">
+    <div class="form-group">
+        <input type="submit" class="btn btn-primary" value="Submit">
     </div>
 </form>

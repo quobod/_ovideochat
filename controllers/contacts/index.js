@@ -88,10 +88,10 @@ export const getContactCount = asyncHandler(async (req, res) => {
 });
 
 //  @desc           Add new contact
-//  @route          POST /contacts
+//  @route          POST /contacts/add
 //  @access         Private
 export const addNewContact = asyncHandler(async (req, res) => {
-  logger.info(`POST: /user/contacts`);
+  logger.info(`POST: /contacts/add`);
 
   const { fname, lname, email, phone } = req.body;
 
@@ -181,7 +181,7 @@ export const addNewContact = asyncHandler(async (req, res) => {
 });
 
 //  @desc           Search contacts by keyword
-//  @route          POST /user/contacts/search
+//  @route          POST /contacts/search
 //  @access         Private
 export const searchContacts = asyncHandler(async (req, res) => {
   logger.info(`POST: /user/contacts/search`);
@@ -230,10 +230,10 @@ export const searchContacts = asyncHandler(async (req, res) => {
 });
 
 //  @desc           View single contact
-//  @route          GET /user/contacts/:contactId
+//  @route          GET /contacts/view/contact/:contactId
 //  @access         Private
 export const viewContact = asyncHandler(async (req, res) => {
-  logger.info(`GET: /user/contacts/:contactId`);
+  logger.info(`GET: /contacts/view/contact/:contactId`);
 
   const { contactId } = req.params;
 
@@ -259,10 +259,11 @@ export const viewContact = asyncHandler(async (req, res) => {
 });
 
 //  @desc           Edit single contact
-//  @route          POST /user/contacts/contact/:contactId
+//  @route          POST /contacts/edit/contact/:contactId
 //  @access         Private
 export const editContact = asyncHandler(async (req, res) => {
-  logger.info(`GET: /user/contacts/contact/:contactId`);
+  dashboard;
+  logger.info(`GET: /contacts/edit/contact/:contactId`);
   log(`\n\tEditing contact\n`);
 
   const data = req.body;
@@ -313,16 +314,16 @@ export const editContact = asyncHandler(async (req, res) => {
 
       log(`\n\tUpdated Document`);
       log(doc);
-      res.redirect("/user/dashboard");
+      res.redirect("/contacts");
     }
   );
 });
 
 //  @desc           Delete single contact
-//  @route          GET /user/contacts/contact/delete/:contactId
+//  @route          GET /contacts/delete/contact/:contactId
 //  @access         Private
 export const deleteContact = asyncHandler(async (req, res) => {
-  logger.info(`GET: /user/contacts/contact/delete/:contactId`);
+  logger.info(`GET: /contacts/delete/contact/:contactId`);
 
   const { contactId } = req.params;
 

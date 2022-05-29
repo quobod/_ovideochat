@@ -1,4 +1,13 @@
 .settings:hover,
-.menu-item {
+.menu-item:hover,
+.control:hover {
   cursor: pointer;
+}
+
+.details {
+  overflow-y: scroll;
+}
+
+::-webkit-scrollbar {
+  -webkit-backface-visibility: hidden;
 }

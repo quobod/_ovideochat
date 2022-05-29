@@ -1,20 +1,43 @@
-<div class="main-container grid-container fluid" style="margin:10px;">
-    <div class="grid-x grid-margin-y">
-
-        <div class="cell small-12">
-            {{>editcontactform}}
-        </div>
-
-        <div class="grid-x grid-margin-x edit-contact-controls">
-            <buton id="add-email" type="button" class="button primary cell medium-auto small-12">
-                Add Email
-            </buton>
-
-            <buton id="add-phone" type="button" class="button primary cell medium-auto small-12">
-                Add Phone
-            </buton>
-        </div>
-        <div id="dialog"></div>
-        <input id="rmtuser" type="hidden" value="{{user._id}}" readonly>
+<div class="row">
+    <div class="col-2">
+        <p class="fw-bolder" style="font-size:1.5rem;">
+            {{user.fname}}
+        </p>
     </div>
+
+    <div class="col auto"></div>
+
+    <div class="col-2">
+        <i class="bi bi-three-dots-vertical menu-item text-secondary settings" data-bs-toggle="modal"
+            data-bs-target="#contactsettings" style="font-size:1.5rem;font-weight:bolder;"></i>
+    </div>
+</div>
+
+<div class="row m auto">
+    <div class="col-12">
+        {{>editcontactform}}
+    </div>
+</div>
+
+<div class="col auto"></div>
+
+<div class="row">
+    <div class="col auto">
+        <div class="row">
+            <div class="col auto">
+                <i id="add-email" class="bi bi-envelope" style="font-size:2rem;">
+                    <i class="bi bi-plus"></i>
+                </i>
+            </div>
+            <div class="col auto">
+                <i id="add-phone" class="bi bi-phone" style="font-size:2rem;">
+                    <i class="bi bi-plus"></i>
+                </i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="dialog"></div>
+<input id="rmtuser" type="hidden" value="{{user._id}}" readonly>
 </div>
