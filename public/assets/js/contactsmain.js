@@ -2,12 +2,16 @@ import * as elements from "./contactsmainelements.js";
 import {
   addHandler,
   log,
+  tlog,
   getAttribute,
   newElement,
   appendChild,
   addAttribute,
   appendBeforeLastChild,
   addClickHandler,
+  countChildren,
+  stringify,
+  parse,
 } from "./utils.js";
 
 window.onload = () => {
@@ -163,6 +167,33 @@ addHandler(elements.addPhoneButton, "click", () => {
   addHandler(trashIcon, "click", () => {
     divInputGroup.remove();
   });
+});
+
+addClickHandler(elements.deleteContactLink, () => {
+  const target = elements.deleteContactIcon;
+  const uid = target.getAttributeNode("data-uid").value.split("-")[1];
+  log(`Delete ${uid}`);
+
+  try {
+    const xmlHttp = new XMLHttpRequest();
+
+    xmlHttp.onload = () => {
+      const responseText = xmlHttp.responseText;
+
+      if (responseText) {
+        log(`\n\tResponse Text: ${stringify(responseText)}\n`);
+      }
+
+      location.href = `/contacts`;
+    };
+
+    xmlHttp.open("GET", `/contacts/delete/contact/${uid}`, true);
+
+    xmlHttp.send();
+  } catch (err) {
+    tlog(err);
+    return;
+  }
 });
 
 // Helper functions

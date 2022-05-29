@@ -16,15 +16,12 @@ export const contactFname = document.querySelector("#contact-fname");
 export const contactLname = document.querySelector("#contact-lname");
 export const contactEmail = document.querySelector("#contact-email");
 export const contactPhone = document.querySelector("#contact-phone");
-
-// Single contact controls
-/* export const contactEditButton = document.querySelector("#contact-edit-button");
-export const contactDeleteButton = document.querySelector(
-  "#contact-delete-button"
+export const deleteContactLink = document.querySelector(
+  "#delete-this-contact-anchor"
 );
-export const editContactForm = document.querySelector("#edit-contact-form");
-export const addEmailButton = document.querySelector("#add-email");
-export const addPhoneButton = document.querySelector("#add-phone"); */
+export const deleteContactIcon = document.querySelector(
+  "#delete-this-contact-icon"
+);
 
 // Messages
 export const closeButton = document.querySelector(".close-button");

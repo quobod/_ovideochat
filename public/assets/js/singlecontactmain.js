@@ -90,7 +90,3 @@ addHandler(elements.addPhoneButton, "click", () => {
     divInputGroup.remove();
   });
 });
-
-addClickHandler(document.querySelector("#delete-this-document"), () => {
-  log("deleted!");
-});

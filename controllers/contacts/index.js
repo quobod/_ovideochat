@@ -3,7 +3,7 @@ import bunyan from "bunyan";
 import { body, check, validationResult } from "express-validator";
 import twilio from "twilio";
 import { customAlphabet } from "nanoid";
-import { cap, stringify, log, size } from "../../custom_modules/index.js";
+import { cap, stringify, dlog, log, size } from "../../custom_modules/index.js";
 import Contact from "../../models/Contacts.js";
 import User from "../../models/UserModel.js";
 import { create } from "../../custom_modules/captcha.js";
@@ -330,13 +330,10 @@ export const deleteContact = asyncHandler(async (req, res) => {
 
   Contact.deleteOne({ _id: `${contactId}` }, (err, results) => {
     if (err) {
-      log(`\n\tError deleting document: ${contactId}`);
-      log(err);
-      log(`\n`);
+      dlog(`Error deleting document: ${contactId}`);
+      dlog(err);
+      return res.json({ status: false });
     }
-
-    log(`\n\tDelete Results`);
-    log(results);
-    res.redirect("/user/dashboard");
+    return res.json({ status: true, results });
   });
 });
