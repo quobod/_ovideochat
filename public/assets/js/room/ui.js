@@ -25,150 +25,152 @@ export const updateUserList = (data) => {
     removeChildren(userList);
 
     data.forEach((item, index) => {
-      // if (!item.hide && item.rmtId != rmtId) {
-      console.log(`\n\tItem: ${JSON.stringify(item)}\n\n`);
-      // if (!item.hide) {
-      // Accordion components
-      const accordionItem = newElement("div");
-      const accordionButton = newElement("button");
-      const accordionCollapse = newElement("div");
-      const accordionBody = newElement("div");
-      const accordionHeader = newElement("h2");
-      const accordionHeaderPara = newElement("p");
+      if (!item.hide && item.rmtId != rmtId) {
+        console.log(`\n\tItem: ${JSON.stringify(item)}\n\n`);
+        // if (!item.hide) {
+        // Accordion components
+        const accordionItem = newElement("div");
+        const accordionButton = newElement("button");
+        const accordionCollapse = newElement("div");
+        const accordionBody = newElement("div");
+        const accordionHeader = newElement("h2");
+        const accordionHeaderPara = newElement("p");
 
-      // Card components
-      const card = newElement("div");
-      const cardHeader = newElement("div");
-      const cardBody = newElement("div");
-      const cardTitle = newElement("div");
-      const cardFooter = newElement("div");
+        // Card components
+        const card = newElement("div");
+        const cardHeader = newElement("div");
+        const cardBody = newElement("div");
+        const cardTitle = newElement("div");
+        const cardFooter = newElement("div");
 
-      // Card controls
-      const divControls = newElement("div");
-      const imgPlaceholder = newElement("i");
-      const videoIcon = newElement("i");
-      const phoneIcon = newElement("i");
-      const paraPeerName = newElement("p");
+        // Card controls
+        const divControls = newElement("div");
+        const imgPlaceholder = newElement("i");
+        const videoIcon = newElement("i");
+        const phoneIcon = newElement("i");
+        const paraPeerName = newElement("p");
 
-      /*
+        /*
           Append components
         */
 
-      // Accordion
-      appendChild(userList, accordionItem);
-      appendChild(accordionItem, accordionHeader);
-      appendChild(accordionHeader, accordionButton);
-      appendChild(accordionButton, accordionHeaderPara);
-      appendChild(accordionItem, accordionCollapse);
-      appendChild(accordionCollapse, accordionBody);
-      appendChild(accordionBody, card);
+        // Accordion
+        appendChild(userList, accordionItem);
+        appendChild(accordionItem, accordionHeader);
+        appendChild(accordionHeader, accordionButton);
+        appendChild(accordionButton, accordionHeaderPara);
+        appendChild(accordionItem, accordionCollapse);
+        appendChild(accordionCollapse, accordionBody);
+        appendChild(accordionBody, card);
 
-      // Card
-      appendChild(card, cardHeader);
-      appendChild(card, cardBody);
-      appendChild(card, cardFooter);
-      appendChild(cardFooter, divControls);
-      appendChild(cardHeader, paraPeerName);
+        // Card
+        appendChild(card, cardHeader);
+        appendChild(card, cardBody);
+        appendChild(card, cardFooter);
+        appendChild(cardFooter, divControls);
+        appendChild(cardHeader, paraPeerName);
 
-      // Controls
-      appendChild(divControls, videoIcon);
-      appendChild(divControls, phoneIcon);
-
-      /*
-          Attributes
-        */
-
-      // Accordion
-      addAttribute(accordionItem, "class", `accordion-item`);
-      addAttribute(accordionHeader, "class", "accordion-header");
-      addAttribute(accordionHeader, "id", `${index}`);
-      addAttribute(accordionButton, "class", "accordion-button");
-      addAttribute(accordionButton, "type", "button");
-      addAttribute(accordionButton, "data-bs-toggle", "collapse");
-      addAttribute(accordionButton, "data-bs-target", `#item-${index}`);
-      addAttribute(accordionButton, "aria-expanded", "false");
-      addAttribute(accordionButton, "aria-controls", `item-${index}`);
-      addAttribute(accordionCollapse, "id", `item-${index}`);
-      addAttribute(
-        accordionCollapse,
-        "class",
-        "accordion-collapse callapse show"
-      );
-      addAttribute(accordionCollapse, "aria-labelledby", `item-${index}`);
-      addAttribute(accordionCollapse, "data-bs-parent", `#peer-list`);
-      addAttribute(accordionBody, "class", "accordion-body");
-
-      // Card
-      addAttribute(card, "class", "card");
-      addAttribute(cardHeader, "class", "card-header");
-      addAttribute(cardBody, "class", "card-body");
-      addAttribute(cardFooter, "class", "card-footer");
-
-      // Controls
-      addAttribute(divControls, "class", "row");
-      addAttribute(
-        videoIcon,
-        "class",
-        "bi bi-webcam-fill fs-5 col auto px-2 call"
-      );
-      addAttribute(videoIcon, "id", `${item.rmtId}`);
-      addAttribute(
-        phoneIcon,
-        "class",
-        "bi bi-telephone-fill fs-5 col auto px-2 call"
-      );
-      addAttribute(phoneIcon, "id", `${item.rmtId}`);
-
-      /*
-          InnerHTML
-      */
-
-      // Accordion Header
-      if (item.showFullName) {
-        accordionHeaderPara.innerHTML = `<b>${cap(item.fname)}</b>`;
-        paraPeerName.innerHTML = `<b>${cap(item.fname)} ${cap(item.lname)}</b>`;
-      } else {
-        accordionHeaderPara.innerHTML = `<b>${cap(item.fname)}</b>`;
-        paraPeerName.innerHTML = `<b>${cap(item.fname)}</b>`;
-      }
-
-      // if (item.rmtId != rmtId) {
-      if (item.hasCamera) {
+        // Controls
         appendChild(divControls, videoIcon);
         appendChild(divControls, phoneIcon);
 
-        addClickHandler(videoIcon, (e) => {
-          console.log(`\n\tRequesting video chat\n`);
-          const data = {
-            sender: personalCode,
-            receiver: e.target.id,
-            requestType: chatType.VIDEO_CHAT,
-          };
-          requestChat(data);
-        });
+        /*
+          Attributes
+        */
 
-        addClickHandler(phoneIcon, (e) => {
-          const data = {
-            sender: personalCode,
-            receiver: e.target.id,
-            requestType: chatType.VOICE_CHAT,
-          };
-          requestChat(data);
-        });
-      } else {
-        appendChild(divControls);
-        appendChild(divControls, phoneIcon);
+        // Accordion
+        addAttribute(accordionItem, "class", `accordion-item`);
+        addAttribute(accordionHeader, "class", "accordion-header");
+        addAttribute(accordionHeader, "id", `${index}`);
+        addAttribute(accordionButton, "class", "accordion-button");
+        addAttribute(accordionButton, "type", "button");
+        addAttribute(accordionButton, "data-bs-toggle", "collapse");
+        addAttribute(accordionButton, "data-bs-target", `#item-${index}`);
+        addAttribute(accordionButton, "aria-expanded", "false");
+        addAttribute(accordionButton, "aria-controls", `item-${index}`);
+        addAttribute(accordionCollapse, "id", `item-${index}`);
+        addAttribute(
+          accordionCollapse,
+          "class",
+          "accordion-collapse callapse show"
+        );
+        addAttribute(accordionCollapse, "aria-labelledby", `item-${index}`);
+        addAttribute(accordionCollapse, "data-bs-parent", `#peer-list`);
+        addAttribute(accordionBody, "class", "accordion-body");
 
-        addClickHandler(phoneIcon, (e) => {
-          const data = {
-            sender: personalCode,
-            receiver: e.target.id,
-            requestType: chatType.TEXT_CHAT,
-          };
-          requestChat(data);
-        });
+        // Card
+        addAttribute(card, "class", "card");
+        addAttribute(cardHeader, "class", "card-header");
+        addAttribute(cardBody, "class", "card-body");
+        addAttribute(cardFooter, "class", "card-footer");
+
+        // Controls
+        addAttribute(divControls, "class", "row");
+        addAttribute(
+          videoIcon,
+          "class",
+          "bi bi-webcam-fill fs-5 col auto px-2 call"
+        );
+        addAttribute(videoIcon, "id", `${item.rmtId}`);
+        addAttribute(
+          phoneIcon,
+          "class",
+          "bi bi-telephone-fill fs-5 col auto px-2 call"
+        );
+        addAttribute(phoneIcon, "id", `${item.rmtId}`);
+
+        /*
+          InnerHTML
+      */
+
+        // Accordion Header
+        if (item.showFullName) {
+          accordionHeaderPara.innerHTML = `<b>${cap(item.fname)}</b>`;
+          paraPeerName.innerHTML = `<b>${cap(item.fname)} ${cap(
+            item.lname
+          )}</b>`;
+        } else {
+          accordionHeaderPara.innerHTML = `<b>${cap(item.fname)}</b>`;
+          paraPeerName.innerHTML = `<b>${cap(item.fname)}</b>`;
+        }
+
+        // if (item.rmtId != rmtId) {
+        if (item.hasCamera) {
+          appendChild(divControls, videoIcon);
+          appendChild(divControls, phoneIcon);
+
+          addClickHandler(videoIcon, (e) => {
+            console.log(`\n\tRequesting video chat\n`);
+            const data = {
+              sender: personalCode,
+              receiver: e.target.id,
+              requestType: chatType.VIDEO_CHAT,
+            };
+            requestChat(data);
+          });
+
+          addClickHandler(phoneIcon, (e) => {
+            const data = {
+              sender: personalCode,
+              receiver: e.target.id,
+              requestType: chatType.VOICE_CHAT,
+            };
+            requestChat(data);
+          });
+        } else {
+          appendChild(divControls);
+          appendChild(divControls, phoneIcon);
+
+          addClickHandler(phoneIcon, (e) => {
+            const data = {
+              sender: personalCode,
+              receiver: e.target.id,
+              requestType: chatType.TEXT_CHAT,
+            };
+            requestChat(data);
+          });
+        }
       }
-      // }
     });
   }
 };

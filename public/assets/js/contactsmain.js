@@ -195,31 +195,3 @@ addClickHandler(elements.deleteContactLink, () => {
     return;
   }
 });
-
-// Helper functions
-/* function prepareNewContactLink() {
-  log(`\n\tNew contact link prepared\n`);
-
-  if (elements.searchForm.classList.contains("show")) {
-    elements.searchForm.classList.remove("show");
-    elements.searchLink.innerHTML = elements.searchForm.classList.contains(
-      "show"
-    )
-      ? "Hide Search"
-      : "Show Search";
-  }
-}
-
-function prepareSearchLink() {
-  if (elements.newContactForm.classList.contains("show")) {
-    elements.newContactForm.classList.remove("show");
-  }
-} */
-
-// Messages
-/* addHandler(elements.closeButton, "click", (e) => {
-  const target = e.target;
-  const parent = target.parentElement;
-  const grandParent = parent.parentElement;
-  grandParent.remove();
-}); */
