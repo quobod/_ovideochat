@@ -13,7 +13,6 @@
     </div>
 </div>
 
-
 <div class="row my-5">
     {{#if hasContacts}}
     <div class="accordion" id="contacts">
@@ -45,60 +44,61 @@
                                                 Emails
                                             </h5>
 
-                                            {{#each emails}}
-                                            <div id="phones" class="accordion accordion-flush">
+                                            <div id="emails" class="accordion accordion-flush">
+                                                {{#each emails as |key val|}}
                                                 <div class="accordion-item">
                                                     <h2 class="accordion-header">
                                                         <button class="accordion-button" type="button"
-                                                            data-bs-toggle="collapse" data-bs-target="#phone{{_id}}"
-                                                            aria-expanded="false" aria-controls="phone{{_id}}">
+                                                            data-bs-toggle="collapse" data-bs-target="#email{{val}}"
+                                                            aria-expanded="false" aria-controls="email{{val}}">
                                                             <h5 class="card-title">
                                                                 <i class="bi bi-envelope"></i>
                                                             </h5>
                                                         </button>
                                                     </h2>
 
-                                                    <div id="phone{{_id}}" class="accordion-collapse collapse show"
-                                                        daa-bs-parent="phones">
+                                                    <div id="email{{val}}" class="accordion-collapse collapse show"
+                                                        daa-bs-parent="emails">
                                                         <div class="accordion-body">
                                                             <p>
-                                                                {{.}}
+                                                                {{key}}
                                                             </p>
                                                         </div>
                                                     </div>
                                                 </div>
+                                                {{/each}}
                                             </div>
-                                            {{/each}}
                                         </div>
                                     </div>
 
                                     <div class="row py-1">
                                         <div class="col-12">
                                             <h5>Phones</h5>
-                                            {{#each phones}}
-                                            <div id="emails" class="accordion accordion-flush">
+
+                                            <div id="phones" class="accordion accordion-flush">
+                                                {{#each phones as |key val|}}
                                                 <div class="accordion-item">
                                                     <h2 class="accordion-header">
                                                         <button class="accordion-button" type="button"
-                                                            data-bs-toggle="collapse" data-bs-target="#email{{_id}}"
-                                                            aria-expanded="false" aria-controls="email{{_id}}">
+                                                            data-bs-toggle="collapse" data-bs-target="#phone{{val}}"
+                                                            aria-expanded="false" aria-controls="phone{{val}}">
                                                             <h5 class="card-title">
                                                                 <i class="bi bi-phone"></i>
                                                             </h5>
                                                         </button>
                                                     </h2>
 
-                                                    <div id="email{{_id}}" class="accordion-collapse collapse close"
-                                                        daa-bs-parent="emails">
+                                                    <div id="phone{{val}}" class="accordion-collapse collapse close"
+                                                        daa-bs-parent="phones">
                                                         <div class="accordion-body">
                                                             <p>
-                                                                {{.}}
+                                                                {{key}}
                                                             </p>
                                                         </div>
                                                     </div>
                                                 </div>
+                                                {{/each}}
                                             </div>
-                                            {{/each}}
                                         </div>
                                     </div>
                                 </div>
@@ -115,7 +115,7 @@
 
                                         <div class="col auto">
                                             <a id="delete-contact" href="#">
-                                                <i id="delete-{{_id}}"
+                                                <i id="delete-this-contact" data-uid="delete-{{_id}}"
                                                     class="bi bi-trash btn-danger p-2 my-1 rounded control"></i>
                                             </a>
                                         </div>
