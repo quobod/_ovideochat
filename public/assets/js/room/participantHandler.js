@@ -120,7 +120,7 @@ export const handleRemoteParticipants = (participant) => {
   addAttribute(participantDiv, "id", participant.identity);
 
   // Add styling attributes
-  addAttribute(participantParent, "class", "remote-video col-12");
+  addAttribute(participantParent, "class", "remote-video");
 
   addAttribute(recordIcon, "class", "bi bi-record col auto");
   addAttribute(recordIcon, "style", "font-size: 2rem; color: cornflowerblue;");
