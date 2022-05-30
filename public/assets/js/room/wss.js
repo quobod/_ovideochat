@@ -35,7 +35,7 @@ export const registerSocketEvents = (socket) => {
 
   socket.on("updateuserlist", (data) => {
     // console.log(`\n\tUpdated User List: ${JSON.stringify(data)}\n\n`);
-    ui.updateUserList(data);
+    updateUserList(data);
   });
 
   socket.on("chatrequest", (data) => {
@@ -208,6 +208,10 @@ export const requestChat = (data) => {
   dlog(`Chat Request\n\t\t${stringify(data)}`, `wss.js requestChat method`);
   socketIO.emit("sendchatrequest", data);
 };
+
+function updateUserList(data) {
+  ui.updateUserList(data);
+}
 
 function showMyContactsCount(data) {
   if (document.querySelector("#contacts")) {
