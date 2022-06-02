@@ -128,12 +128,24 @@ export const addNewContact = asyncHandler(async (req, res) => {
       dashboard: true,
     });
   } else {
-    const { email, phone, fname, lname } = req.body;
+    const { fname, lname } = req.body;
     const user = req.user.withoutPassword();
+    const data = req.body;
+    const emails = [];
+    const phones = [];
+
+    for (const d in data) {
+      const objD = data[d];
+      if (d.toLowerCase().trim().startsWith("email")) {
+        emails.push(objD);
+      } else if (d.toLowerCase().trim().startsWith("phone")) {
+        phones.push(objD);
+      }
+    }
 
     const newContact = new Contact({
-      emails: [email],
-      phones: [phone],
+      emails,
+      phones,
       fname,
       lname,
       owner: user._id,
