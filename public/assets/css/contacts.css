@@ -1,10 +1,12 @@
 .settings:hover,
 .menu-item:hover,
-.control:hover {
+.control:hover,
+.click-icon {
   cursor: pointer;
 }
 
-.details {
+.details,
+.form {
   overflow-y: scroll;
 }
 
