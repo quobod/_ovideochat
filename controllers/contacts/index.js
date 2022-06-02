@@ -10,7 +10,7 @@ import { create } from "../../custom_modules/captcha.js";
 
 const logger = bunyan.createLogger({ name: "User Controller" });
 
-//  @desc          Contacts
+//  @desc          Get contacts
 //  @route         GET /contacts
 //  @access        Private
 export const getContacts = asyncHandler(async (req, res) => {
@@ -52,7 +52,7 @@ export const getContacts = asyncHandler(async (req, res) => {
   }
 });
 
-//  @desc          Contacts
+//  @desc          Get contacts count
 //  @route         GET /contacts/count
 //  @access        Private
 export const getContactCount = asyncHandler(async (req, res) => {
