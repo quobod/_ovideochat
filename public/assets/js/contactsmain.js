@@ -14,6 +14,9 @@ import {
   parse,
   generateEmailInputBlock,
   generatePhoneInputBlock,
+  dlog,
+  getFirstChild,
+  getElement,
 } from "./utils.js";
 
 window.onload = () => {
@@ -199,17 +202,19 @@ addClickHandler(elements.deleteContactLink, () => {
 });
 
 addClickHandler(elements.addEmailFormButton, () => {
-  console.log(`Add Email`);
+  const count = countChildren(getElement("new-contact-form-container")) + 1;
+  console.log(`Add Email ${count}`);
   appendBeforeLastChild(
     elements.newContactFormContainer,
-    generateEmailInputBlock()
+    generateEmailInputBlock("example@email.net", `email-${count}`)
   );
 });
 
 addClickHandler(elements.addPhoneFormButton, () => {
-  console.log(`Add Phone`);
+  const count = countChildren(getElement("new-contact-form-container")) + 1;
+  console.log(`Add Phone ${count}`);
   appendBeforeLastChild(
     elements.newContactFormContainer,
-    generatePhoneInputBlock()
+    generatePhoneInputBlock("###-###-####", `phone-${count}`)
   );
 });

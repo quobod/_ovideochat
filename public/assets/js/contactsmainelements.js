@@ -12,6 +12,7 @@ import {
 export const searchInput = document.querySelector("#search-input");
 
 // New contact form
+export const formData = document.querySelector("#new-contact-form-data");
 export const contactFname = document.querySelector("#contact-fname");
 export const contactLname = document.querySelector("#contact-lname");
 export const contactEmail = document.querySelector("#contact-email");
