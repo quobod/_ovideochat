@@ -16,6 +16,16 @@ export const contactFname = document.querySelector("#contact-fname");
 export const contactLname = document.querySelector("#contact-lname");
 export const contactEmail = document.querySelector("#contact-email");
 export const contactPhone = document.querySelector("#contact-phone");
+export const newContactFormContainer = document.querySelector(
+  "#new-contact-form-container"
+);
+export const addPhoneFormButton = document.querySelector(
+  "#add-phone-form-button"
+);
+export const addEmailFormButton = document.querySelector(
+  "#add-email-form-button"
+);
+
 export const deleteContactLink = document.querySelector(
   "#delete-this-contact-anchor"
 );

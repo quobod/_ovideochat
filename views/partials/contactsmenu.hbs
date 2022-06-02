@@ -48,7 +48,7 @@
             </div>
             <div class="modal-body">
                 <form action="/contacts/add" method="post" class="mx-auto">
-                    <div class="container">
+                    <div id="new-contact-form-container" class="container">
                         <div class="row">
                             <div class="col-12 py-3">
                                 <div class="input-group">
@@ -107,8 +107,23 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                {{!-- <button type="button" class="btn btn-primary">Understood</button> --}}
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-4 py-2">
+                            <button id="add-email-form-button" type="button" class="btn btn-secondary">Add
+                                Email</button>
+                        </div>
+
+                        <div class="col-sm-12 col-md-4 py-2">
+                            <button id="add-phone-form-button" type="button" class="btn btn-secondary">Add
+                                Phone</button>
+                        </div>
+
+                        <div class="col-sm-12 col-md-4 py-2">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

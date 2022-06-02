@@ -46,6 +46,12 @@ export const addAttribute = (theElement, whichAttribute, attributeValue) => {
   }
 };
 
+export const setAttribute = (theElement, whichAttribute, attributeValue) => {
+  if (null != theElement) {
+    theElement.setAttribute(whichAttribute, attributeValue);
+  }
+};
+
 export const getAttribute = (theElement, whichAttribute) => {
   if (null != theElement && null != whichAttribute) {
     return theElement.getAttribute(`${whichAttribute}`) || null;
@@ -226,4 +232,88 @@ export const newElement = (type) => {
     return document.createElement(type);
   }
   return null;
+};
+
+export const generatePhoneInputBlock = (
+  placeHolder = "Phone",
+  name = "phonex"
+) => {
+  const col = newElement("div");
+  const group = newElement("div");
+  const label = newElement("span");
+  const icon = newElement("i");
+  const deleteIcon = newElement("i");
+
+  addAttribute(col, "class", "col-12 py-3");
+  addAttribute(group, "class", "input-group");
+  addAttribute(label, "class", "input-group-text");
+  addAttribute(icon, "class", "bi bi-phone");
+  addAttribute(deleteIcon, "style", "margin-left:5px;margin-top:10px; ");
+  addAttribute(deleteIcon, "class", "bi bi-trash");
+
+  appendChild(col, group);
+  appendChild(group, label);
+  appendChild(label, icon);
+  appendChild(group, generatePhoneInput(placeHolder, name));
+  appendChild(group, deleteIcon);
+
+  addClickHandler(deleteIcon, () => {
+    col.remove();
+  });
+
+  return col;
+};
+
+export const generateEmailInputBlock = (
+  placeHolder = "example@email.net",
+  name = "emailx"
+) => {
+  const col = newElement("div");
+  const group = newElement("div");
+  const label = newElement("span");
+  const icon = newElement("i");
+  const deleteIcon = newElement("i");
+
+  addAttribute(col, "class", "col-12 py-3");
+  addAttribute(group, "class", "input-group");
+  addAttribute(icon, "class", "bi bi-envelope");
+  addAttribute(label, "class", "input-group-text");
+  addAttribute(deleteIcon, "style", "margin-left:5px;margin-top:10px; ");
+  addAttribute(deleteIcon, "class", "bi bi-trash");
+
+  appendChild(col, group);
+  appendChild(group, label);
+  appendChild(label, icon);
+  appendChild(group, generateEmailInput(placeHolder, name));
+  appendChild(group, deleteIcon);
+
+  addClickHandler(deleteIcon, () => {
+    col.remove();
+  });
+
+  return col;
+};
+
+export const generatePhoneInput = (placeHolder = "Phone", name = `phonex`) => {
+  const textInput = newElement("input");
+
+  addAttribute(textInput, "type", "tel");
+  addAttribute(textInput, "name", `${name}`);
+  addAttribute(textInput, "class", `form-control`);
+  addAttribute(textInput, "placeholder", `${placeHolder}`);
+  addAttribute(textInput, "required", "");
+
+  return textInput;
+};
+
+export const generateEmailInput = (placeHolder = "Email", name = `emailx`) => {
+  const textInput = newElement("input");
+
+  addAttribute(textInput, "type", "email");
+  addAttribute(textInput, "name", `${name}`);
+  addAttribute(textInput, "class", `form-control`);
+  addAttribute(textInput, "placeholder", `${placeHolder}`);
+  addAttribute(textInput, "required", "");
+
+  return textInput;
 };

@@ -12,6 +12,8 @@ import {
   countChildren,
   stringify,
   parse,
+  generateEmailInputBlock,
+  generatePhoneInputBlock,
 } from "./utils.js";
 
 window.onload = () => {
@@ -194,4 +196,20 @@ addClickHandler(elements.deleteContactLink, () => {
     tlog(err);
     return;
   }
+});
+
+addClickHandler(elements.addEmailFormButton, () => {
+  console.log(`Add Email`);
+  appendBeforeLastChild(
+    elements.newContactFormContainer,
+    generateEmailInputBlock()
+  );
+});
+
+addClickHandler(elements.addPhoneFormButton, () => {
+  console.log(`Add Phone`);
+  appendBeforeLastChild(
+    elements.newContactFormContainer,
+    generatePhoneInputBlock()
+  );
 });
