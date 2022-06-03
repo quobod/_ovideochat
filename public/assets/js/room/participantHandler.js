@@ -110,6 +110,8 @@ export const handleRemoteParticipants = (participant) => {
   const controlsPanel = newElement("div");
   const controls = newElement("div");
   const participantParent = newElement("div");
+  const recordIconParent = newElement("div");
+  const stopIconParent = newElement("div");
   const recordIcon = newElement("i");
   const stopIcon = newElement("i");
 
@@ -118,6 +120,7 @@ export const handleRemoteParticipants = (participant) => {
 
   // Add selection attribute
   addAttribute(participantDiv, "id", participant.identity);
+  addAttribute(participantDiv, "class", "col-12");
 
   // Add styling attributes
   addAttribute(participantParent, "class", "remote-video");
@@ -129,24 +132,25 @@ export const handleRemoteParticipants = (participant) => {
   addAttribute(stopIcon, "style", "font-size: 2rem; color: cornflowerblue;");
 
   addAttribute(content, "class", "row");
-  addAttribute(controlsPanel, "class", "col auto");
+  addAttribute(controlsPanel, "class", "col auto p-1");
   addAttribute(controlsPanel, "id", "remote-controls-panel");
   addAttribute(controls, "class", "row");
   addAttribute(controls, "id", "remote-media-controls-parent");
+  addAttribute(recordIconParent, "class", "col-4 p-1");
+  addAttribute(stopIconParent, "class", "col-4 p-1");
 
   // Prepare parent for single child
   removeChildren(parent);
 
   // Add element to it's parent
-  // appendChild(parent, participantDiv);
-  // appendChild(parent, participantParent);
-  appendChild(participantParent, participantDiv);
   appendChild(parent, content);
-  appendChild(content, participantParent);
+  appendChild(content, participantDiv);
   appendChild(content, controlsPanel);
   appendChild(controlsPanel, controls);
-  appendChild(controls, recordIcon);
-  appendChild(controls, stopIcon);
+  appendChild(controls, recordIconParent);
+  appendChild(controls, stopIconParent);
+  appendChild(recordIconParent, recordIcon);
+  appendChild(stopIconParent, stopIcon);
 
   // iterate through the participant's published tracks and
   // call `handleTrackPublication` on them
