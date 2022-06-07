@@ -8,9 +8,15 @@ import {
   getElement,
   addClickHandler,
   cap,
+  dlog,
 } from "../utils.js";
 import { chatType } from "../constants.js";
-import { requestChat } from "./wss.js";
+import {
+  requestChat,
+  userIsBlocked,
+  addUserToBlockedList,
+  removeUserFromBlockedList,
+} from "./wss.js";
 
 // Exported functions
 
@@ -21,11 +27,16 @@ export const updateUserList = (data) => {
     const userList = elements.peersList;
     const personalCode = elements.personalCode.value;
     const rmtId = elements.rmtIdInput.value;
+    let dynamicUserActions = document.querySelector("#dynamic-user-actions");
 
     removeChildren(userList);
 
     data.forEach((item, index) => {
-      if (!item.hide && item.rmtId != rmtId) {
+      if (
+        !item.hide &&
+        item.rmtId != rmtId &&
+        !userIsBlocked(rmtId, item.blockedUsers)
+      ) {
         console.log(`\n\tItem: ${JSON.stringify(item)}\n\n`);
         // if (!item.hide) {
         // Accordion components
@@ -35,10 +46,15 @@ export const updateUserList = (data) => {
         const accordionBody = newElement("div");
         const accordionHeader = newElement("h2");
         const accordionHeaderPara = newElement("p");
+        const menuIcon = newElement("i");
 
         // Card components
         const card = newElement("div");
         const cardHeader = newElement("div");
+        const cardHeaderContainer = newElement("div");
+        const cardHeaderRow = newElement("div");
+        const cardHeaderLefCol = newElement("div");
+        const cardHeaderRightCol = newElement("div");
         const cardBody = newElement("div");
         const cardTitle = newElement("div");
         const cardFooter = newElement("div");
@@ -49,6 +65,39 @@ export const updateUserList = (data) => {
         const videoIcon = newElement("i");
         const phoneIcon = newElement("i");
         const paraPeerName = newElement("p");
+
+        // Dynamic menu items
+        const blockUserAnchor = newElement("a");
+        const blockUserListItem = newElement("li");
+        const blockUserInput = newElement("input");
+        const blockUserInputPanel = newElement("div");
+        const blockUserCheckbox = newElement("input");
+        const blockUserCheckboxPanel = newElement("div");
+        const blockUserComponentParent = newElement("div");
+
+        // Append menu items
+        appendChild(blockUserCheckboxPanel, blockUserCheckbox);
+        appendChild(blockUserInputPanel, blockUserInput);
+        appendChild(blockUserComponentParent, blockUserCheckboxPanel);
+        appendChild(blockUserComponentParent, blockUserInputPanel);
+
+        // Menu items attributes
+        addAttribute(blockUserInputPanel, "class", "col auto");
+        addAttribute(blockUserCheckboxPanel, "class", "col auto");
+
+        addAttribute(blockUserCheckbox, "type", "checkbox");
+        addAttribute(blockUserCheckbox, "id", `${item.rmtId}`);
+        addAttribute(blockUserCheckbox, "class", "form-check-input");
+
+        addAttribute(blockUserInput, "type", "text");
+        addAttribute(blockUserInput, "class", "form-control");
+        addAttribute(blockUserInput, "readonly", "");
+        addAttribute(
+          blockUserInput,
+          "value",
+          `Block ${item.uname || item.fname}`
+        );
+        addAttribute(blockUserComponentParent, "class", "row p-1");
 
         /*
           Append components
@@ -68,7 +117,12 @@ export const updateUserList = (data) => {
         appendChild(card, cardBody);
         appendChild(card, cardFooter);
         appendChild(cardFooter, divControls);
-        appendChild(cardHeader, paraPeerName);
+        appendChild(cardHeader, cardHeaderRow);
+        // appendChild(cardHeaderContainer, cardHeaderRow);
+        appendChild(cardHeaderRow, cardHeaderLefCol);
+        appendChild(cardHeaderRow, cardHeaderRightCol);
+        appendChild(cardHeaderLefCol, paraPeerName);
+        appendChild(cardHeaderRightCol, menuIcon);
 
         // Controls
         appendChild(divControls, videoIcon);
@@ -78,8 +132,14 @@ export const updateUserList = (data) => {
           Attributes
         */
 
+        // addAttribute(cardHeaderContainer, "class", "container-fluid");
+        addAttribute(cardHeaderRow, "class", "row");
+        addAttribute(cardHeaderLefCol, "class", "col auto px-2");
+        addAttribute(cardHeaderRightCol, "class", "col-1 px-1 right-align");
+
         // Accordion
         addAttribute(accordionItem, "class", `accordion-item`);
+
         addAttribute(accordionHeader, "class", "accordion-header");
         addAttribute(accordionHeader, "id", `${index}`);
         addAttribute(accordionButton, "class", "accordion-button");
@@ -103,6 +163,15 @@ export const updateUserList = (data) => {
         addAttribute(cardHeader, "class", "card-header");
         addAttribute(cardBody, "class", "card-body");
         addAttribute(cardFooter, "class", "card-footer");
+        addAttribute(
+          menuIcon,
+          "class",
+          "bi bi-three-dots menu-item text-secondary"
+        );
+        addAttribute(menuIcon, "data-bs-toggle", "modal");
+        addAttribute(menuIcon, "data-bs-target", "#peer-item-menu");
+        addAttribute(menuIcon, "style", "font-size:1.5rem;font-weight:bolder;");
+        addAttribute(menuIcon, "id", `${item.rmtId}`);
 
         // Controls
         addAttribute(divControls, "class", "row");
@@ -122,6 +191,31 @@ export const updateUserList = (data) => {
         /*
           InnerHTML
       */
+
+        // Click Handlers
+        addClickHandler(menuIcon, (e) => {
+          const id = e.target.id;
+          removeChildren(dynamicUserActions);
+          appendChild(dynamicUserActions, blockUserComponentParent);
+          // dlog(`${id} clicked`);
+        });
+
+        // Click Handlers
+        addHandler(blockUserCheckbox, "change", (e) => {
+          const id = e.target.id;
+          const isChecked = e.target.checked;
+
+          dlog(`Check box value: ${isChecked}`);
+
+          if (isChecked) {
+            addUserToBlockedList(rmtId, id);
+          } else {
+            removeUserFromBlockedList(rmtId, id);
+          }
+
+          // addUserToBlockedList(rmtId, id);
+          // dlog(`${id} clicked`);
+        });
 
         // Accordion Header
         if (item.showFullName) {

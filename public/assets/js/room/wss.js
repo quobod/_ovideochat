@@ -236,28 +236,30 @@ function showMyContactsCount(data) {
 function showLoggedInUsers(data) {
   if (document.querySelector("#peers")) {
     const { users } = data;
+    dlog(`showLoggedInUsers method\n\tUsers: ${stringify(users[1])}`);
     let userStatus;
     const rmtidInput = document.querySelector("#rmtid-input");
     const currentUserRmtid = users.find((u) => u.rmtId == rmtidInput.value);
-    const loggedInUsers = users.filter(
-      (u) => u.rmtId != rmtidInput.value && !u.hide
+    const filteredLoggedInUsers = users.filter(
+      (u) =>
+        u.rmtId != rmtidInput.value &&
+        !u.hide &&
+        !userIsBlocked(rmtidInput.value, u.blockedUsers)
     );
-    const userCount = loggedInUsers.length;
+    const userCount = filteredLoggedInUsers.length;
 
-    if (rmtidInput.value != currentUserRmtid) {
-      switch (userCount) {
-        case 1:
-          userStatus = `user connected`;
-          break;
+    switch (userCount) {
+      case 1:
+        userStatus = `user connected`;
+        break;
 
-        default:
-          userStatus = `users connected`;
-          break;
-      }
-
-      dlog(`${userCount} ${userStatus}`);
-      document.querySelector("#peers").innerHTML = `<b>${userCount}</b>`;
+      default:
+        userStatus = `users connected`;
+        break;
     }
+
+    dlog(`${userCount} ${userStatus}`);
+    document.querySelector("#peers").innerHTML = `<b>${userCount}</b>`;
   }
 }
 
@@ -305,4 +307,34 @@ const handleResponse = (data) => {
   const callout = ui.handleChatRequestResponse(data);
   removeChildren(getElement("callout-parent"));
   appendChild(getElement("callout-parent"), callout);
+};
+
+// Helpers
+
+/** Check if id is in the list
+ *  @param uid: User ID to compare
+ *  @param blockedIDs: Array of IDs
+ *  @return Returns true if id is found, false otherwise
+ */
+export const userIsBlocked = (uid, blockedIDs) => {
+  return blockedIDs.find((id) => id == uid) || false;
+};
+
+const isCurrentUser = (rmtId, users) => {
+  const rmtidInput = document.querySelector("#rmtid-input");
+  const userIndex = users.findIndex((u) => u.rmitId == rmtId);
+
+  if (userIndex == -1) {
+    return false;
+  } else {
+    return true;
+  }
+};
+
+export const addUserToBlockedList = (blocker, blockee) => {
+  dlog(`${blocker} has blocked ${blockee}`);
+};
+
+export const removeUserFromBlockedList = (blocker, blockee) => {
+  dlog(`${blocker} has unblocked ${blockee}`);
 };
