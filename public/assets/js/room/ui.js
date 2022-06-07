@@ -197,7 +197,6 @@ export const updateUserList = (data) => {
           const id = e.target.id;
           removeChildren(dynamicUserActions);
           appendChild(dynamicUserActions, blockUserComponentParent);
-          // dlog(`${id} clicked`);
         });
 
         // Click Handlers
@@ -212,9 +211,6 @@ export const updateUserList = (data) => {
           } else {
             removeUserFromBlockedList(rmtId, id);
           }
-
-          // addUserToBlockedList(rmtId, id);
-          // dlog(`${id} clicked`);
         });
 
         // Accordion Header
