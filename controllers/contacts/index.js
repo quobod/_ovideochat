@@ -3,7 +3,14 @@ import bunyan from "bunyan";
 import { body, check, validationResult } from "express-validator";
 import twilio from "twilio";
 import { customAlphabet } from "nanoid";
-import { cap, stringify, dlog, log, size } from "../../custom_modules/index.js";
+import {
+  cap,
+  stringify,
+  dlog,
+  tlog,
+  log,
+  size,
+} from "../../custom_modules/index.js";
 import Contact from "../../models/Contacts.js";
 import User from "../../models/UserModel.js";
 import { create } from "../../custom_modules/captcha.js";
@@ -22,7 +29,7 @@ export const getContacts = asyncHandler(async (req, res) => {
     user.lname = cap(user.lname);
 
     // console.log(user);
-    console.log(`\n\n`);
+    dlog(`\n\n`);
 
     Contact.find()
       .sort({ fname: "asc" })
@@ -47,7 +54,7 @@ export const getContacts = asyncHandler(async (req, res) => {
         });
       });
   } catch (err) {
-    console.log(err);
+    tlog(err);
     res.redirect("/user");
   }
 });
@@ -64,7 +71,7 @@ export const getContactCount = asyncHandler(async (req, res) => {
     user.lname = cap(user.lname);
 
     // console.log(user);
-    console.log(`\n\n`);
+    dlog(`\n\n`);
 
     Contact.find()
       .sort({ fname: "asc" })
@@ -82,7 +89,7 @@ export const getContactCount = asyncHandler(async (req, res) => {
         return res.json({ status: true, contacts: docs });
       });
   } catch (err) {
-    console.log(err);
+    tlog(err);
     return res.json({ status: false, cause: `${err.cause}` });
   }
 });
@@ -118,7 +125,7 @@ export const addNewContact = asyncHandler(async (req, res) => {
       arrResult.push(newObj);
     }
 
-    console.log(`${stringify(arrResult)}\n`);
+    // console.log(`${stringify(arrResult)}\n`);
 
     return res.render("contact/contacts", {
       title: "Error",
@@ -154,7 +161,7 @@ export const addNewContact = asyncHandler(async (req, res) => {
     newContact
       .save()
       .then((doc) => {
-        console.log("\n\tNew contact " + doc);
+        // console.log("\n\tNew contact " + doc);
 
         res.redirect("/contacts");
       })
@@ -200,7 +207,7 @@ export const searchContacts = asyncHandler(async (req, res) => {
   const { searchKey } = req.body;
   const user = req.user;
 
-  console.log(`\n\tSearcing by keyword: ${searchKey}`);
+  // console.log(`\n\tSearcing by keyword: ${searchKey}`);
 
   Contact.find(
     {
@@ -225,9 +232,9 @@ export const searchContacts = asyncHandler(async (req, res) => {
           errors: err,
         });
       }
-      log(`\n`);
-      console.log(docs);
-      log(`\n`);
+      // log(`\n`);
+      // dlog(docs);
+      // log(`\n`);
 
       res.render("user/dashboard", {
         title: `Dashboard`,
@@ -249,14 +256,14 @@ export const viewContact = asyncHandler(async (req, res) => {
 
   const { contactId } = req.params;
 
-  log(`\n\tViewing contact ID: ${contactId}\n`);
+  // dlog(`\n\tViewing contact ID: ${contactId}\n`);
 
   Contact.findOne({ _id: contactId }, (err, doc) => {
     if (err) {
-      log(err);
+      tlog(err);
       res.redirect(`/contacts`);
     } else {
-      log(doc);
+      // dlog(doc);
 
       res.render("contact/contact", {
         doc: doc,
@@ -275,7 +282,7 @@ export const viewContact = asyncHandler(async (req, res) => {
 //  @access         Private
 export const editContact = asyncHandler(async (req, res) => {
   logger.info(`POST: /contacts/edit/contact/:contactId`);
-  log(`\n\tEditing contact\n`);
+  // log(`\n\tEditing contact\n`);
 
   const data = req.body;
   const contactid = req.body.contactid;
@@ -285,7 +292,7 @@ export const editContact = asyncHandler(async (req, res) => {
   let emails = [],
     phones = [];
 
-  log(`\n\n`);
+  dlog(`\n\n`);
 
   for (const d in data) {
     const objD = data[d];
@@ -304,8 +311,8 @@ export const editContact = asyncHandler(async (req, res) => {
   };
 
   log(`\n\t\tSubmitted Data`);
-  log(updatedData);
-  log(`\n\n`);
+  // log(updatedData);
+  // log(`\n\n`);
 
   const updateOptions = {
     upsert: true,
@@ -320,11 +327,11 @@ export const editContact = asyncHandler(async (req, res) => {
     (err, doc) => {
       if (err) {
         log(`\n\n\t\tError`);
-        log(err);
+        tlog(err);
       }
 
-      log(`\n\tUpdated Document`);
-      log(doc);
+      // log(`\n\tUpdated Document`);
+      // log(doc);
       res.redirect("/contacts");
     }
   );
@@ -348,4 +355,66 @@ export const deleteContact = asyncHandler(async (req, res) => {
     }
     return res.json({ status: true, results });
   });
+});
+
+//  @desc           Add user ID to blocked list
+//  @route          POST /contacts/edit/contact/block/:contactId
+//  @access         Private
+export const blockUser = asyncHandler(async (req, res) => {
+  logger.info(`POST: /contacts/edit/contact/block/contactId`);
+  log(`\n\tEditing contact\n`);
+
+  const { contactId } = req.params;
+  const { userId } = req.body;
+
+  dlog(`${userId} adding ${contactId} to blocked list`);
+
+  res.status(200).json({ blocked: true, userId, contactId });
+
+  /*  Contact.findOneAndUpdate(
+    { _id: `${contactid}` },
+    updatedData,
+    updateOptions,
+    (err, doc) => {
+      if (err) {
+        log(`\n\n\t\tError`);
+        log(err);
+      }
+
+      log(`\n\tUpdated Document`);
+      log(doc);
+      res.redirect("/contacts");
+    }
+  ); */
+});
+
+//  @desc           Remove user ID from blocked list
+//  @route          POST /contacts/edit/contact/unblock/:contactId
+//  @access         Private
+export const unblockUser = asyncHandler(async (req, res) => {
+  logger.info(`POST: /contacts/edit/contact/unblock/contactId`);
+  log(`\n\tEditing contact\n`);
+
+  const { contactId } = req.params;
+  const { userId } = req.body;
+
+  dlog(`${userId} removing ${contactId} from blocked list`);
+
+  res.status(200).json({ unblocked: true, userId, contactId });
+
+  /*  Contact.findOneAndUpdate(
+    { _id: `${contactid}` },
+    updatedData,
+    updateOptions,
+    (err, doc) => {
+      if (err) {
+        log(`\n\n\t\tError`);
+        log(err);
+      }
+
+      log(`\n\tUpdated Document`);
+      log(doc);
+      res.redirect("/contacts");
+    }
+  ); */
 });

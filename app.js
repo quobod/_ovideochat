@@ -186,7 +186,7 @@ const io = new Server(server);
 io.on("connection", (socket) => {
   socket.on("registerme", (data) => {
     const { socketId, rmtId, hasCamera } = data;
-    dlog(`Registering: ${socketId}\t${rmtId}\t${hasCamera}`);
+    // dlog(`Registering: ${socketId}\t${rmtId}\t${hasCamera}`);
 
     registerMe(data, (results) => {
       if (results.status) {
@@ -351,6 +351,24 @@ io.on("connection", (socket) => {
         io.to(socket.id).emit("mycontacts", { contactCount });
       });
   });
+
+  socket.on("blockuser", (data) => {
+    /** TODO:
+     *  Receive update blocked list from ajax call. Update the logged in user list
+     */
+
+    const { blocker, blockee } = data;
+    // dlog(`${blocker} has blocked ${blockee}`);
+  });
+
+  socket.on("unblockuser", (data) => {
+    /** TODO:
+     *  Receive update blocked list from ajax call. Update the logged in user list
+     */
+
+    const { blocker, blockee } = data;
+    dlog(`${blocker} has unblocked ${blockee}`);
+  });
 });
 
 server.listen(PORT, "0.0.0.0", () => {
@@ -364,9 +382,9 @@ server.listen(PORT, "0.0.0.0", () => {
 
 function logPeers() {
   const users = userManager.getUsers();
-  console.log(infoMessage(`\n\tConnected Peers: ${users.length}`));
+  dlog(infoMessage(`\n\tConnected Peers: ${users.length}`));
   if (users.length > 0) {
-    users.forEach((p) => log(`\t\t${stringify(p)}`));
+    users.forEach((p) => dlog(`\t\t${stringify(p)}`));
   }
 }
 
@@ -419,7 +437,7 @@ async function registerMe(userData, done) {
       }
     })
     .catch((err) => {
-      log(`\n\tError in the registerMe method`);
+      dlog(`\n\tError in the registerMe method`);
       log(err);
     });
 }

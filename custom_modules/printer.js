@@ -11,3 +11,9 @@ export const dlog = (argument = "printer argument", label = "") => {
   console.log(argument);
   console.groupEnd();
 };
+
+export const tlog = (arg = "", label = "utils.js") => {
+  console.group(label);
+  console.trace(`${arg}`);
+  console.groupEnd();
+};

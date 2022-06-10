@@ -9,7 +9,7 @@ import {
   successStatus,
   warningStatus,
 } from "./messages.js";
-import { error, log, cls, table, dlog } from "./printer.js";
+import { error, log, cls, table, dlog, tlog } from "./printer.js";
 import {
   parse,
   stringify,
@@ -44,6 +44,7 @@ export {
   cls,
   table,
   dlog,
+  tlog,
   size,
   parse,
   stringify,

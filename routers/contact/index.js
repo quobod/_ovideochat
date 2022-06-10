@@ -8,6 +8,8 @@ import {
   deleteContact,
   getContacts,
   getContactCount,
+  blockUser,
+  unblockUser,
 } from "../../controllers/contacts/index.js";
 import { signedIn, reauthorize } from "../../middleware/AuthMiddleware.js";
 import { lettersOnly } from "../../custom_modules/index.js";
@@ -38,5 +40,9 @@ contact.route(`/search`).post(signedIn, searchContacts);
 contact.route("/delete/contact/:contactId").get(signedIn, deleteContact);
 
 contact.route("/count").get(signedIn, getContactCount);
+
+contact.route("/edit/contact/block/:contactId").post(blockUser);
+
+contact.route("/edit/contact/unblock/:contactId").post(unblockUser);
 
 export default contact;

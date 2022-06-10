@@ -3,7 +3,7 @@ import bunyan from "bunyan";
 import { body, check, validationResult } from "express-validator";
 import twilio from "twilio";
 import { customAlphabet } from "nanoid";
-import { cap, stringify, dlog, log } from "../../custom_modules/index.js";
+import { cap, stringify, dlog, tlog, log } from "../../custom_modules/index.js";
 import Contact from "../../models/Contacts.js";
 import User from "../../models/UserModel.js";
 import { create } from "../../custom_modules/captcha.js";
@@ -77,7 +77,7 @@ export const userDashboard = asyncHandler(async (req, res) => {
       fname: user.fname,
     });
   } catch (err) {
-    console.log(err);
+    tlog(err);
     res.status(200).json({ status: JSON.stringify(err) });
   }
 });
@@ -118,9 +118,7 @@ export const userReauth = asyncHandler(async (req, res) => {
 
   const oUser = req.user;
   const { email, pwd } = req.body;
-  console.log(
-    `\n\tRe-authentication Data\n\t\tEmail: ${email}, Password: ${pwd}\n`
-  );
+  dlog(`\n\tRe-authentication Data\n\t\tEmail: ${email}, Password: ${pwd}\n`);
 
   const matched = await oUser.matchPassword(pwd);
   if (matched) {
@@ -152,14 +150,14 @@ export const updateUserProfile = asyncHandler(async (req, res) => {
     updatedData.uname = data.uname;
   }
 
-  console.log(`\n\tUpdated Profile Data`);
-  console.log(updatedData);
-  console.log(`\n`);
+  dlog(`\n\tUpdated Profile Data`);
+  // console.log(updatedData);
+  // console.log(`\n`);
 
   User.findByIdAndUpdate(user._id, updatedData, (err, user) => {
     if (err) {
-      console.log(`\n\t\tUser update error`);
-      console.log(err);
+      // tlog(`\n\t\tUser update error`);
+      tlog(err);
     }
 
     res.redirect("/user/dashboard");
@@ -266,7 +264,7 @@ export const userRoom = asyncHandler(async (req, res) => {
       rmtUser,
     });
   } catch (err) {
-    console.log(err);
+    tlog(err);
     res.status(200).json({ status: JSON.stringify(err) });
   }
 });

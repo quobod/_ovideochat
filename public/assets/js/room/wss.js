@@ -331,10 +331,48 @@ const isCurrentUser = (rmtId, users) => {
   }
 };
 
-export const addUserToBlockedList = (blocker, blockee) => {
-  dlog(`${blocker} has blocked ${blockee}`);
+export const addUserToBlockedList = (data) => {
+  /** TODO:
+   *  Send ajax request and return the user's blocked list
+   */
+
+  let xmlHttp;
+
+  const { blocker, blockee } = data;
+
+  try {
+    xmlHttp = new XMLHttpRequest();
+
+    xmlHttp.open("POST", `/contacts/edit/contact/block/${blockee}`);
+
+    xmlHttp.setRequestHeader(
+      "Content-type",
+      "application/x-www-form-urlencoded"
+    );
+
+    xmlHttp.onload = () => {
+      const responseText = xmlHttp.responseText;
+
+      if (responseText) {
+        log(`\n\tResponse Text: ${stringify(responseText)}\n`);
+        const responseJson = parse(responseText);
+
+        location.href = `/user/room`;
+      }
+    };
+
+    xmlHttp.send(`userId=${blocker}`);
+  } catch (err) {
+    tlog(err);
+    return;
+  }
+
+  socketIO.emit("blockuser", data);
 };
 
-export const removeUserFromBlockedList = (blocker, blockee) => {
-  dlog(`${blocker} has unblocked ${blockee}`);
+export const removeUserFromBlockedList = (data) => {
+  /** TODO:
+   *  Send ajax request and return the user's blocked list
+   */
+  socketIO.emit("unblockuser", data);
 };

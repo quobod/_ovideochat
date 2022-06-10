@@ -197,19 +197,25 @@ export const updateUserList = (data) => {
           const id = e.target.id;
           removeChildren(dynamicUserActions);
           appendChild(dynamicUserActions, blockUserComponentParent);
+          if (userIsBlocked(rmtId, item.blockedUsers)) {
+            blockUserCheckbox.isChecked = true;
+          } else {
+            blockUserCheckbox.isChecked = false;
+          }
         });
 
         // Click Handlers
         addHandler(blockUserCheckbox, "change", (e) => {
-          const id = e.target.id;
+          const blockee = e.target.id;
+          const blocker = rmtId;
           const isChecked = e.target.checked;
 
           dlog(`Check box value: ${isChecked}`);
 
           if (isChecked) {
-            addUserToBlockedList(rmtId, id);
+            addUserToBlockedList({ blocker, blockee });
           } else {
-            removeUserFromBlockedList(rmtId, id);
+            removeUserFromBlockedList({ blocker, blockee });
           }
         });
 
