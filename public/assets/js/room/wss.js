@@ -158,6 +158,8 @@ export const registerSocketEvents = (socket) => {
     showMyContactsCount(data);
   });
 
+  socket.on("userblockedcheck", (data) => {});
+
   requestRegistration(socket);
 };
 
@@ -271,16 +273,26 @@ function requestRegistration(socket) {
         rmtId: elements.rmtIdInput.value,
         hasCamera: false,
       };
-      const mediaDevices = navigator.mediaDevices || null;
-      // log(mediaDevices);
-      if (mediaDevices != null) {
-        data.hasCamera = true;
-      }
 
-      socketIO.emit("registerme", data);
-      socketIO.emit("mycontactcount", {
-        rmtId: document.querySelector("#rmtid-input").value,
-      });
+      navigator.mediaDevices
+        .getUserMedia({ video: true })
+        .then((mediaStream) => {
+          log(mediaDevices);
+          if (null != mediaStream && mediaDevices.active) {
+            data.hasCamera = true;
+          }
+
+          socketIO.emit("registerme", data);
+          socketIO.emit("mycontactcount", {
+            rmtId: document.querySelector("#rmtid-input").value,
+          });
+        })
+        .catch((err) => {
+          socketIO.emit("registerme", data);
+          socketIO.emit("mycontactcount", {
+            rmtId: document.querySelector("#rmtid-input").value,
+          });
+        });
     }, 700);
   }
 }
@@ -316,8 +328,46 @@ const handleResponse = (data) => {
  *  @param blockedIDs: Array of IDs
  *  @return Returns true if id is found, false otherwise
  */
-export const userIsBlocked = (uid, blockedIDs) => {
-  return blockedIDs.find((id) => id == uid) || false;
+export const userIsBlocked = (data) => {
+  let xmlHttp;
+
+  const { blocker, blockee } = data;
+
+  try {
+    xmlHttp = new XMLHttpRequest();
+
+    xmlHttp.open("GET", `/user/get/blockedlist/${blocker}`);
+
+    xmlHttp.setRequestHeader(
+      "Content-type",
+      "application/x-www-form-urlencoded"
+    );
+
+    xmlHttp.onload = () => {
+      const responseText = xmlHttp.responseText;
+
+      if (responseText) {
+        // log(`\n\tResponse Text: ${responseText}\n`);
+        const responseJson = parse(responseText);
+        const { blocked, blocker, blockee, updatedList } = responseJson;
+
+        // console.log(`Updated list: ${stringify(updatedList)}`);
+        // response = responseJson;
+
+        dlog(`/user/get/blockedlist`);
+        return cb(responseJson);
+
+        // location.href = `/user/room`;
+      }
+
+      // socketIO.emit("blockuser", response);
+    };
+
+    xmlHttp.send();
+  } catch (err) {
+    tlog(err);
+    return;
+  }
 };
 
 const isCurrentUser = (rmtId, users) => {
@@ -336,14 +386,14 @@ export const addUserToBlockedList = (data) => {
    *  Send ajax request and return the user's blocked list
    */
 
-  let xmlHttp;
+  let xmlHttp, response;
 
   const { blocker, blockee } = data;
 
   try {
     xmlHttp = new XMLHttpRequest();
 
-    xmlHttp.open("POST", `/contacts/edit/contact/block/${blockee}`);
+    xmlHttp.open("POST", `/user/block/${blockee}`);
 
     xmlHttp.setRequestHeader(
       "Content-type",
@@ -354,25 +404,61 @@ export const addUserToBlockedList = (data) => {
       const responseText = xmlHttp.responseText;
 
       if (responseText) {
-        log(`\n\tResponse Text: ${stringify(responseText)}\n`);
+        // log(`\n\tResponse Text: ${responseText}\n`);
         const responseJson = parse(responseText);
+        const { blocked, blocker, blockee, updatedList } = responseJson;
 
-        location.href = `/user/room`;
+        // console.log(`Updated list: ${stringify(updatedList)}`);
+        response = responseJson;
+
+        // location.href = `/user/room`;
       }
+
+      socketIO.emit("blockuser", response);
     };
 
-    xmlHttp.send(`userId=${blocker}`);
+    xmlHttp.send(`rmtId=${blocker}`);
   } catch (err) {
     tlog(err);
     return;
   }
-
-  socketIO.emit("blockuser", data);
 };
 
 export const removeUserFromBlockedList = (data) => {
   /** TODO:
    *  Send ajax request and return the user's blocked list
    */
+
+  let xmlHttp;
+
+  const { blocker, blockee } = data;
+
+  try {
+    xmlHttp = new XMLHttpRequest();
+
+    xmlHttp.open("POST", `/user/unblock/${blockee}`);
+
+    xmlHttp.setRequestHeader(
+      "Content-type",
+      "application/x-www-form-urlencoded"
+    );
+
+    xmlHttp.onload = () => {
+      const responseText = xmlHttp.responseText;
+
+      if (responseText) {
+        log(`\n\tResponse Text: ${responseText}\n`);
+        const responseJson = parse(responseText);
+
+        // location.href = `/user/room`;
+      }
+    };
+
+    xmlHttp.send(`rmtId=${blocker}`);
+  } catch (err) {
+    tlog(err);
+    return;
+  }
+
   socketIO.emit("unblockuser", data);
 };

@@ -58,7 +58,12 @@ const userSchema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    blockedUsers: [],
+    blockedUsers: [
+      {
+        type: String,
+        unique: true,
+      },
+    ],
   },
   {
     timestamps: true,

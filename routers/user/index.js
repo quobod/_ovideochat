@@ -8,6 +8,9 @@ import {
   userRoom,
   createRoomToken,
   joinAsPeer,
+  blockUser,
+  unblockUser,
+  getBlockedList,
 } from "../../controllers/user/index.js";
 import { signedIn, reauthorize } from "../../middleware/AuthMiddleware.js";
 import { lettersOnly } from "../../custom_modules/index.js";
@@ -25,5 +28,11 @@ user.route("/room").get(signedIn, userRoom);
 user.route("/room/create").post(signedIn, createRoomToken);
 
 user.route("/room/join").get(signedIn, joinAsPeer);
+
+user.route("/block/:userId").post(blockUser);
+
+user.route("/unblock/:userId").post(unblockUser);
+
+user.route("/get/blockedlist/:blocker").get(signedIn, getBlockedList);
 
 export default user;

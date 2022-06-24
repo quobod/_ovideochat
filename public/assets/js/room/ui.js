@@ -9,6 +9,7 @@ import {
   addClickHandler,
   cap,
   dlog,
+  stringify,
 } from "../utils.js";
 import { chatType } from "../constants.js";
 import {
@@ -29,51 +30,48 @@ export const updateUserList = (data) => {
     const rmtId = elements.rmtIdInput.value;
     let dynamicUserActions = document.querySelector("#dynamic-user-actions");
 
+    const accordionItem = newElement("div");
+    const accordionButton = newElement("button");
+    const accordionCollapse = newElement("div");
+    const accordionBody = newElement("div");
+    const accordionHeader = newElement("h2");
+    const accordionHeaderPara = newElement("p");
+    const menuIcon = newElement("i");
+
+    // Card components
+    const card = newElement("div");
+    const cardHeader = newElement("div");
+    const cardHeaderContainer = newElement("div");
+    const cardHeaderRow = newElement("div");
+    const cardHeaderLefCol = newElement("div");
+    const cardHeaderRightCol = newElement("div");
+    const cardBody = newElement("div");
+    const cardTitle = newElement("div");
+    const cardFooter = newElement("div");
+
+    // Card controls
+    const divControls = newElement("div");
+    const imgPlaceholder = newElement("i");
+    const videoIcon = newElement("i");
+    const phoneIcon = newElement("i");
+    const paraPeerName = newElement("p");
+
+    // Dynamic menu items
+    const blockUserAnchor = newElement("a");
+    const blockUserListItem = newElement("li");
+    const blockUserInput = newElement("input");
+    const blockUserInputPanel = newElement("div");
+    const blockUserCheckbox = newElement("input");
+    const blockUserCheckboxPanel = newElement("div");
+    const blockUserComponentParent = newElement("div");
+
     removeChildren(userList);
 
     data.forEach((item, index) => {
-      if (
-        !item.hide &&
-        item.rmtId != rmtId &&
-        !userIsBlocked(rmtId, item.blockedUsers)
-      ) {
-        console.log(`\n\tItem: ${JSON.stringify(item)}\n\n`);
+      if (!item.hide && item.rmtId != rmtId) {
+        // console.log(`\n\tItem: ${JSON.stringify(item)}\n\n`);
         // if (!item.hide) {
         // Accordion components
-        const accordionItem = newElement("div");
-        const accordionButton = newElement("button");
-        const accordionCollapse = newElement("div");
-        const accordionBody = newElement("div");
-        const accordionHeader = newElement("h2");
-        const accordionHeaderPara = newElement("p");
-        const menuIcon = newElement("i");
-
-        // Card components
-        const card = newElement("div");
-        const cardHeader = newElement("div");
-        const cardHeaderContainer = newElement("div");
-        const cardHeaderRow = newElement("div");
-        const cardHeaderLefCol = newElement("div");
-        const cardHeaderRightCol = newElement("div");
-        const cardBody = newElement("div");
-        const cardTitle = newElement("div");
-        const cardFooter = newElement("div");
-
-        // Card controls
-        const divControls = newElement("div");
-        const imgPlaceholder = newElement("i");
-        const videoIcon = newElement("i");
-        const phoneIcon = newElement("i");
-        const paraPeerName = newElement("p");
-
-        // Dynamic menu items
-        const blockUserAnchor = newElement("a");
-        const blockUserListItem = newElement("li");
-        const blockUserInput = newElement("input");
-        const blockUserInputPanel = newElement("div");
-        const blockUserCheckbox = newElement("input");
-        const blockUserCheckboxPanel = newElement("div");
-        const blockUserComponentParent = newElement("div");
 
         // Append menu items
         appendChild(blockUserCheckboxPanel, blockUserCheckbox);
@@ -193,7 +191,7 @@ export const updateUserList = (data) => {
       */
 
         // Click Handlers
-        addClickHandler(menuIcon, (e) => {
+        /* addClickHandler(menuIcon, (e) => {
           const id = e.target.id;
           removeChildren(dynamicUserActions);
           appendChild(dynamicUserActions, blockUserComponentParent);
@@ -202,7 +200,7 @@ export const updateUserList = (data) => {
           } else {
             blockUserCheckbox.isChecked = false;
           }
-        });
+        }); */
 
         // Click Handlers
         addHandler(blockUserCheckbox, "change", (e) => {
@@ -226,8 +224,19 @@ export const updateUserList = (data) => {
             item.lname
           )}</b>`;
         } else {
-          accordionHeaderPara.innerHTML = `<b>${cap(item.fname)}</b>`;
-          paraPeerName.innerHTML = `<b>${cap(item.fname)}</b>`;
+          /* accordionHeaderPara.innerHTML = `<b>${cap(item.fname)}</b>`;
+          paraPeerName.innerHTML = `<b>${cap(item.fname)}</b>`; */
+
+          addClickHandler(menuIcon, (e) => {
+            const id = e.target.id;
+            removeChildren(dynamicUserActions);
+            appendChild(dynamicUserActions, blockUserComponentParent);
+            if (userIsBlocked(rmtId, item.blockedUsers)) {
+              blockUserCheckbox.isChecked = true;
+            } else {
+              blockUserCheckbox.isChecked = false;
+            }
+          });
         }
 
         // if (item.rmtId != rmtId) {
@@ -266,6 +275,7 @@ export const updateUserList = (data) => {
             requestChat(data);
           });
         }
+      } else {
       }
     });
   }

@@ -2,6 +2,7 @@ import express from "express";
 import { Server } from "socket.io";
 import https from "https";
 import path from "path";
+import axios from "axios";
 import dotenv from "dotenv";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
@@ -22,6 +23,8 @@ import connectDB from "./config/db.js";
 import passportConfig from "./config/passport.js";
 import { create } from "./custom_modules/captcha.js";
 import adapter from "webrtc-adapter";
+import bunyan from "bunyan";
+const logger = bunyan.createLogger({ name: "User Controller" });
 import {
   log,
   dlog,
@@ -40,6 +43,7 @@ import api from "./routers/api/index.js";
 import User from "./models/UserModel.js";
 import Contact from "./models/Contacts.js";
 import userManager from "./custom_modules/UsersManager.js";
+import { protect } from "./middleware/AuthMiddleware.js";
 
 dotenv.config();
 mongoose.Promise = global.Promise;
@@ -267,7 +271,7 @@ io.on("connection", (socket) => {
         `${userSender.fname} ${userSender.lname} is requesting a ${requestType} with ${userReceiver.fname} ${userReceiver.lname}`
       );
 
-      dlog(`Receiver's socket ID: ${userReceiver.socketId}`);
+      // dlog(`Receiver's socket ID: ${userReceiver.socketId}`);
 
       io.to(userReceiver.socketId).emit("chatrequest", {
         sender: userSender,
@@ -357,8 +361,14 @@ io.on("connection", (socket) => {
      *  Receive update blocked list from ajax call. Update the logged in user list
      */
 
-    const { blocker, blockee } = data;
-    // dlog(`${blocker} has blocked ${blockee}`);
+    const { blocker, blockee, blocked, updatedList } = data;
+    const user = userManager.getUser(blocker);
+
+    user.blockedUsers = updatedList;
+
+    dlog(`${blocker} has blocked ${blockee}\n\n\t\t${stringify(user)}`);
+
+    io.emit("updateuserlist", userManager.getUsers());
   });
 
   socket.on("unblockuser", (data) => {
@@ -384,7 +394,7 @@ function logPeers() {
   const users = userManager.getUsers();
   dlog(infoMessage(`\n\tConnected Peers: ${users.length}`));
   if (users.length > 0) {
-    users.forEach((p) => dlog(`\t\t${stringify(p)}`));
+    users.forEach((p) => dlog(`\t\t${p.fname}`));
   }
 }
 
@@ -401,18 +411,11 @@ async function registerMe(userData, done) {
         dlog(`${rmtId} is registered`, "app.js file\n\tregisterMe method");
         results = userManager.updateUser(rmtId, {
           socketId: `${socketId}`,
-          fname: user.fname,
-          lname: user.lname,
-          email: user.email,
+          ...res,
           hasCamera: hasCamera,
         });
       } else {
         const objUser = {
-          // socketId: `${socketId}`,
-          // rmtId: `${rmtId}`,
-          // fname: user.fname,
-          // lname: user.lname,
-          // email: user.email,
           hasCamera: hasCamera,
         };
 
@@ -420,9 +423,10 @@ async function registerMe(userData, done) {
           socketId: `${socketId}`,
           ...objUser,
           ...res,
+          hasCamera,
         });
 
-        newUser.rmtId = newUser._id;
+        newUser.rmtId = res._id;
 
         results = userManager.addUser(newUser);
       }
@@ -440,6 +444,18 @@ async function registerMe(userData, done) {
       dlog(`\n\tError in the registerMe method`);
       log(err);
     });
+}
+
+async function refreshBlockedLists(cb = null) {
+  await userManager.getUsers().forEach((user) => {
+    User.findById(user.rmtId)
+      .then((doc) => {
+        user.blockedUsers = doc.blockedUsers;
+      })
+      .catch((err) => {
+        dlog(err);
+      });
+  });
 }
 
 function letsencryptOptions(domain = null) {

@@ -268,3 +268,72 @@ export const userRoom = asyncHandler(async (req, res) => {
     res.status(200).json({ status: JSON.stringify(err) });
   }
 });
+
+//  @desc           Blocked Users
+//  @route          POST /user/get/blockedlist
+//  @access         Private
+export const getBlockedList = asyncHandler(async (req, res) => {
+  logger.info(`POST: /user/get/blockedlist/<parameter>`);
+
+  const { blocker } = req.params;
+
+  dlog(`Blocker ${blocker}\n`);
+
+  // res.json({ status: true, blocker });
+
+  return User.findById(blocker, (err, doc) => {
+    if (err) {
+      return res.json({ status: false, cause: err });
+    }
+    return res.json({ status: true, blockedUsers: doc.blockedUsers });
+  });
+});
+
+//  @desc           Add user ID to blocked list
+//  @route          POST /users/block/:contactId
+//  @access         Private
+export const blockUser = asyncHandler(async (req, res) => {
+  logger.info(`POST: /users/block/contactId`);
+
+  const { userId } = req.params;
+  const { rmtId } = req.body;
+
+  // dlog(`${rmtId} adding ${userId} to blocked list`);
+
+  User.findByIdAndUpdate(rmtId, { $push: { blockedUsers: `${userId}` } })
+    .then((doc) => {
+      dlog(`${stringify(doc)}`);
+      res.status(200).json({
+        blocked: true,
+        blockee: userId,
+        blocker: rmtId,
+        updatedList: doc.blockedUsers,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(200).json({ blocked: false, cause: err });
+    });
+});
+
+//  @desc           Remove user ID from blocked list
+//  @route          POST /users/unblock/:contactId
+//  @access         Private
+export const unblockUser = asyncHandler(async (req, res) => {
+  logger.info(`POST: /users/unblock/contactId`);
+
+  const { userId } = req.params;
+  const { rmtId } = req.body;
+
+  dlog(`${rmtId} removing ${userId} from blocked list`);
+
+  User.findByIdAndUpdate(rmtId, { $pop: { blockedUsers: `${userId}` } })
+    .then((doc) => {
+      dlog(`${stringify(doc)}`);
+      res.status(200).json({ blocked: true, userId, rmtId, confirmed: true });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(200).json({ blocked: false, cause: err });
+    });
+});
