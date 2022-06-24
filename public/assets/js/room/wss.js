@@ -267,6 +267,7 @@ function showLoggedInUsers(data) {
 
 function requestRegistration(socket) {
   if (elements.rmtIdInput) {
+    dlog(`\n\tRequesting registration\n`);
     setTimeout(() => {
       const data = {
         socketId: socket.id,
@@ -277,8 +278,8 @@ function requestRegistration(socket) {
       navigator.mediaDevices
         .getUserMedia({ video: true })
         .then((mediaStream) => {
-          log(mediaDevices);
-          if (null != mediaStream && mediaDevices.active) {
+          log(mediaStream);
+          if (null != mediaStream && mediaStream.active) {
             data.hasCamera = true;
           }
 
@@ -288,6 +289,7 @@ function requestRegistration(socket) {
           });
         })
         .catch((err) => {
+          log(err);
           socketIO.emit("registerme", data);
           socketIO.emit("mycontactcount", {
             rmtId: document.querySelector("#rmtid-input").value,
