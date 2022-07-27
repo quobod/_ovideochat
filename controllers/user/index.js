@@ -229,7 +229,7 @@ export const joinAsPeer = asyncHandler(async (req, res) => {
         videoChat = false;
     }
 
-    res.render("user/room", {
+    res.render("user/_room", {
       hasToken: token ? true : false,
       token: `${accessToken}`,
       roomName: nameOfRoom,
@@ -276,16 +276,22 @@ export const getBlockedList = asyncHandler(async (req, res) => {
   logger.info(`POST: /user/get/blockedlist/<parameter>`);
 
   const { blocker } = req.params;
+  const { blockee } = req.body;
 
-  dlog(`Blocker ${blocker}\n`);
+  dlog(`Blocker ${blocker}\nBockee ${blockee}`);
 
   // res.json({ status: true, blocker });
 
-  return User.findById(blocker, (err, doc) => {
+  User.findById(blocker, (err, doc) => {
     if (err) {
       return res.json({ status: false, cause: err });
     }
-    return res.json({ status: true, blockedUsers: doc.blockedUsers });
+    return res.json({
+      status: true,
+      blockedUsers: doc.blockedUsers,
+      blocker,
+      blockee,
+    });
   });
 });
 
@@ -293,7 +299,7 @@ export const getBlockedList = asyncHandler(async (req, res) => {
 //  @route          POST /users/block/:contactId
 //  @access         Private
 export const blockUser = asyncHandler(async (req, res) => {
-  logger.info(`POST: /users/block/contactId`);
+  logger.info(`POST: /user/block/contactId`);
 
   const { userId } = req.params;
   const { rmtId } = req.body;
@@ -320,7 +326,7 @@ export const blockUser = asyncHandler(async (req, res) => {
 //  @route          POST /users/unblock/:contactId
 //  @access         Private
 export const unblockUser = asyncHandler(async (req, res) => {
-  logger.info(`POST: /users/unblock/contactId`);
+  logger.info(`POST: /user/unblock/contactId`);
 
   const { userId } = req.params;
   const { rmtId } = req.body;
@@ -330,7 +336,12 @@ export const unblockUser = asyncHandler(async (req, res) => {
   User.findByIdAndUpdate(rmtId, { $pop: { blockedUsers: `${userId}` } })
     .then((doc) => {
       dlog(`${stringify(doc)}`);
-      res.status(200).json({ blocked: true, userId, rmtId, confirmed: true });
+      res.status(200).json({
+        blocked: true,
+        blockee: userId,
+        blocker: rmtId,
+        updatedList: doc.blockedUsers,
+      });
     })
     .catch((err) => {
       console.log(err);

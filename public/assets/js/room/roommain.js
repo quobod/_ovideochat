@@ -14,7 +14,7 @@ import {
   handleLocalParticipant,
   handleRemoteParticipants,
   handleDisconnectedParticipant,
-} from "./participantHandler.js";
+} from "./_participantHandler.js";
 
 // init socket connection
 const socket = io("/");

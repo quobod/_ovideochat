@@ -1,0 +1,33 @@
+#part-parent {
+    display: inline-grid;
+}
+
+#local-part,
+#remote-parts,
+#local-part:first-child,
+#remote-parts:first-child {
+    display: inline-block;
+}
+
+#local-part {
+    left: 5%;
+    display: inline-block;
+}
+
+
+.rvideo,
+.lvideo {
+    display: inline-grid;
+    border-radius: 12px;
+}
+
+.rvideo video,
+.lvideo video {
+    border-radius: 12px;
+}
+
+.lvideo video {
+    width: 100%;
+    height: 100px;
+    background: rgba(100, 100, 100, 0.6);
+}

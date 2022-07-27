@@ -361,14 +361,20 @@ io.on("connection", (socket) => {
      *  Receive update blocked list from ajax call. Update the logged in user list
      */
 
-    const { blocker, blockee, blocked, updatedList } = data;
+    const { blocked, blockee, updatedList, blocker } = data;
     const user = userManager.getUser(blocker);
 
-    user.blockedUsers = updatedList;
+    if (user) {
+      user.blockedUsers = updatedList;
 
-    dlog(`${blocker} has blocked ${blockee}\n\n\t\t${stringify(user)}`);
+      dlog(
+        `Blocked: ${blocked}\nBlocked Users: ${stringify(
+          updatedList
+        )}\nBlocker: ${blocker}`
+      );
 
-    io.emit("updateuserlist", userManager.getUsers());
+      io.emit("updateuserlist", userManager.getUsers());
+    }
   });
 
   socket.on("unblockuser", (data) => {
@@ -376,8 +382,20 @@ io.on("connection", (socket) => {
      *  Receive update blocked list from ajax call. Update the logged in user list
      */
 
-    const { blocker, blockee } = data;
-    dlog(`${blocker} has unblocked ${blockee}`);
+    const { blocked, blockee, updatedList, blocker } = data;
+    const user = userManager.getUser(blocker);
+
+    if (user) {
+      user.blockedUsers = updatedList;
+
+      dlog(
+        `Unblocked: ${blocked}\nBlocked Users: ${stringify(
+          updatedList
+        )}\nBlocker: ${blocker}`
+      );
+
+      io.emit("updateuserlist", userManager.getUsers());
+    }
   });
 });
 
@@ -408,11 +426,12 @@ async function registerMe(userData, done) {
       let results;
 
       if (registeredUser) {
-        dlog(`${rmtId} is registered`, "app.js file\n\tregisterMe method");
+        // dlog(`${rmtId} is registered`, "app.js file\n\tregisterMe method");
         results = userManager.updateUser(rmtId, {
           socketId: `${socketId}`,
           ...res,
           hasCamera: hasCamera,
+          rmtId,
         });
       } else {
         const objUser = {

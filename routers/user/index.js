@@ -33,6 +33,6 @@ user.route("/block/:userId").post(blockUser);
 
 user.route("/unblock/:userId").post(unblockUser);
 
-user.route("/get/blockedlist/:blocker").get(signedIn, getBlockedList);
+user.route("/get/blockedlist/:blocker").post(signedIn, getBlockedList);
 
 export default user;

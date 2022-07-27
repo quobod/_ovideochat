@@ -17,6 +17,7 @@ import {
   userIsBlocked,
   addUserToBlockedList,
   removeUserFromBlockedList,
+  checkIsBlocked,
 } from "./wss.js";
 
 // Exported functions
@@ -64,21 +65,24 @@ export const updateUserList = (data) => {
     const blockUserCheckbox = newElement("input");
     const blockUserCheckboxPanel = newElement("div");
     const blockUserComponentParent = newElement("div");
+    appendChild(dynamicUserActions, blockUserComponentParent);
 
     removeChildren(userList);
 
     data.forEach((item, index) => {
-      if (!item.hide && item.rmtId != rmtId) {
+      if (
+        !item.hide &&
+        item.rmtId != rmtId &&
+        !checkIsBlocked(rmtId, item.blockedUsers)
+      ) {
         // console.log(`\n\tItem: ${JSON.stringify(item)}\n\n`);
         // if (!item.hide) {
-        // Accordion components
 
         // Append menu items
         appendChild(blockUserCheckboxPanel, blockUserCheckbox);
         appendChild(blockUserInputPanel, blockUserInput);
         appendChild(blockUserComponentParent, blockUserCheckboxPanel);
         appendChild(blockUserComponentParent, blockUserInputPanel);
-
         // Menu items attributes
         addAttribute(blockUserInputPanel, "class", "col auto");
         addAttribute(blockUserCheckboxPanel, "class", "col auto");
@@ -96,6 +100,16 @@ export const updateUserList = (data) => {
           `Block ${item.uname || item.fname}`
         );
         addAttribute(blockUserComponentParent, "class", "row p-1");
+
+        userIsBlocked({ blocker: rmtId, blockee: item.rmtId }, (data) => {
+          const { blocked } = data;
+
+          dlog(`Blocked: ${blocked}`);
+
+          if (blocked) {
+            blockUserCheckbox.checked = true;
+          }
+        });
 
         /*
           Append components
@@ -186,27 +200,12 @@ export const updateUserList = (data) => {
         );
         addAttribute(phoneIcon, "id", `${item.rmtId}`);
 
-        /*
-          InnerHTML
-      */
-
-        // Click Handlers
-        /* addClickHandler(menuIcon, (e) => {
-          const id = e.target.id;
-          removeChildren(dynamicUserActions);
-          appendChild(dynamicUserActions, blockUserComponentParent);
-          if (userIsBlocked(rmtId, item.blockedUsers)) {
-            blockUserCheckbox.isChecked = true;
-          } else {
-            blockUserCheckbox.isChecked = false;
-          }
-        }); */
-
         // Click Handlers
         addHandler(blockUserCheckbox, "change", (e) => {
           const blockee = e.target.id;
           const blocker = rmtId;
           const isChecked = e.target.checked;
+          removeChildren(dynamicUserActions);
 
           dlog(`Check box value: ${isChecked}`);
 
@@ -224,17 +223,11 @@ export const updateUserList = (data) => {
             item.lname
           )}</b>`;
         } else {
-          /* accordionHeaderPara.innerHTML = `<b>${cap(item.fname)}</b>`;
-          paraPeerName.innerHTML = `<b>${cap(item.fname)}</b>`; */
-
           addClickHandler(menuIcon, (e) => {
             const id = e.target.id;
-            removeChildren(dynamicUserActions);
-            appendChild(dynamicUserActions, blockUserComponentParent);
             if (userIsBlocked(rmtId, item.blockedUsers)) {
-              blockUserCheckbox.isChecked = true;
-            } else {
-              blockUserCheckbox.isChecked = false;
+              blockUserCheckbox.checked = true;
+              dlog(`${rmtId} is blocked by ${item.rmtId}`);
             }
           });
         }
@@ -275,7 +268,6 @@ export const updateUserList = (data) => {
             requestChat(data);
           });
         }
-      } else {
       }
     });
   }

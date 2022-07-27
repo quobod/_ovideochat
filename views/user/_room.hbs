@@ -1,0 +1,46 @@
+<div id="callout-parent"></div>
+
+{{#if hasToken}}
+<input type="hidden" id="join-room-input" value="{{token}}">
+<input type="hidden" id="room-name-input" value="{{roomName}}">
+<input type="hidden" id="chat-type-input" value="{{chatType}}">
+{{/if}}
+
+<div class="row">
+    <div class="col auto"></div>
+
+    <div class="col-2">
+        <i class="bi bi-three-dots-vertical menu-item text-secondary settings" data-bs-toggle="modal"
+            data-bs-target="#settings" style="font-size:1.5rem;font-weight:bolder;"></i>
+    </div>
+
+    {{#if videoChat}}
+    <h2 class="col-12">
+        Video Chat
+    </h2>
+    <div id="part-parent" style="position:relative;">
+        <div id="remote-parts" class="rvideo" style="position:relative;"></div>
+        <div id="local-part" class="lvideo" style="position:absolute;">
+            <divid="controls">
+        </div>
+    </div>
+</div>
+{{else}}
+
+<h2 class="col-sm-12 col-md-6">
+    Voice Chat
+</h2>
+<div class="col-sm-12 col-md-6">
+    <div class="row">
+        <div class="col" id="local-part"></div>
+        <div class="col" id="remote-parts"></div>
+    </div>
+</div>
+
+<div class="col-12" id="controls"></div>
+{{/if}}
+</div>
+
+
+<input type="hidden" id="rmtid-input" value="{{rmtId}}">
+<input type="hidden" id="personal-code-input">

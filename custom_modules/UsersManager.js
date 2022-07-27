@@ -45,8 +45,14 @@ class UserManager {
   };
 
   removeUserById = (uid) => {
-    this.users = this.users.filter((user) => user.socketId != uid);
-    this.users = this.users.filter((user) => user.rmtId != uid);
+    let user = this.getUser(uid);
+
+    if (null != user) {
+      dlog(successStatus(`Removed user ${stringify(user)}`));
+      user = null;
+      this.users = this.users.filter((user) => user.socketId != uid);
+      this.users = this.users.filter((user) => user.rmtId != uid);
+    }
   };
 
   getUserById = (uid) =>
